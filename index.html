@@ -83,7 +83,7 @@
 
     /* ── NAVBAR ── */
     .navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
       padding: 20px 48px;
       background: rgba(253,248,245,0.82);
@@ -127,7 +127,7 @@
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       text-align: center;
-      padding: 120px 32px 80px;
+      padding: 60px 32px 80px;
       position: relative; z-index: 2;
     }
     .hero-eyebrow {
@@ -321,23 +321,56 @@
     /* ── GALLERY ── */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-width: 960px;
+      margin: 0 auto;
     }
     .gallery-item {
       position: relative; overflow: hidden;
       border-radius: 12px;
+      aspect-ratio: 1;
       background: linear-gradient(145deg, var(--rose-lt), var(--lav-lt));
       cursor: pointer;
-      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+      will-change: filter, transform;
+      transform: translateZ(0);
+      transition:
+        filter 0.4s ease,
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        opacity 0.4s ease;
     }
-    .gallery-item:hover { transform: scale(1.02) translateY(-4px); }
+
+    /* default: semua item blur + redup */
+    .gallery-item {
+      filter: blur(4px) brightness(0.6) saturate(0.7);
+      transform: scale(0.97) translateZ(0);
+      opacity: 0.75;
+    }
+
+    /* item yang di-hover: tajam + terang */
+    .gallery-item:hover {
+      filter: blur(0) brightness(1.05) saturate(1.1);
+      transform: scale(1.04) translateZ(0);
+      opacity: 1;
+      box-shadow: 0 12px 40px rgba(158,63,92,0.3);
+      z-index: 2;
+    }
+
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+      will-change: transform;
+    }
+    .gallery-item:hover img { transform: scale(1.06); }
+    /* foto unggulan: baris pertama — foto 1 lebar 2 kolom, foto 2 & 3 kotak */
     .gallery-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
-    .gallery-item:nth-child(2),
-    .gallery-item:nth-child(3),
-    .gallery-item:nth-child(4),
-    .gallery-item:nth-child(5) { aspect-ratio: 1; }
-    .gallery-item:nth-child(6) { grid-column: span 2; aspect-ratio: 16/9; }
+    /* foto tengah — foto 10 lebar 2 kolom sebagai aksen */
+    .gallery-item:nth-child(10) { grid-column: span 2; aspect-ratio: 16/9; }
+    /* foto penutup — foto 21 lebar 2 kolom */
+    .gallery-item:nth-child(21) { grid-column: span 2; aspect-ratio: 16/9; }
     .gallery-placeholder {
       width: 100%; height: 100%;
       display: flex; flex-direction: column;
@@ -560,8 +593,55 @@
       .counter-cell:nth-child(2) { border-right: none; }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
       .gallery-item:nth-child(1),
-      .gallery-item:nth-child(6) { grid-column: span 2; }
+      .gallery-item:nth-child(10),
+      .gallery-item:nth-child(21) { grid-column: span 2; }
       .letter-wrap { padding: 36px 24px; }
+    }
+    /* ── Birthday Banner ── */
+    #bday-banner {
+      position: relative;
+      background: linear-gradient(90deg, #f7a8c0, #e8b4e8, #f7a8c0);
+      background-size: 200% 100%;
+      animation: bdayShimmer 3s linear infinite;
+      color: #6b1e3d;
+      text-align: center;
+      padding: 10px 16px;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    @keyframes bdayShimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+    #bday-banner strong { font-weight: 500; }
+    #bday-countdown {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .bday-unit {
+      background: rgba(255,255,255,0.45);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-weight: 500;
+      font-size: 13px;
+      min-width: 38px;
+      text-align: center;
+    }
+    .bday-sep { opacity: 0.6; font-size: 12px; }
+    #bday-banner.bday-today {
+      background: linear-gradient(90deg, #ffb3c6, #f9a8d4, #c084fc, #ffb3c6);
+      background-size: 300% 100%;
+      animation: bdayShimmer 2s linear infinite;
+      font-size: 14px;
+      padding: 14px 16px;
     }
   </style>
 </head>
@@ -580,14 +660,31 @@
   <img id="lightbox-img" src="" alt="" />
 </div>
 
+<!-- ════════════════════════════ BIRTHDAY BANNER ════════════════════════════ -->
+<div id="bday-banner">
+  <span>🌸</span>
+  <span>Ulang tahun Dekby ke-28 &nbsp;—&nbsp; 27 April 2026 &nbsp;—&nbsp; tinggal</span>
+  <span id="bday-countdown">
+    <span class="bday-unit" id="bd-days">–</span>
+    <span class="bday-sep">hari</span>
+    <span class="bday-unit" id="bd-hours">–</span>
+    <span class="bday-sep">jam</span>
+    <span class="bday-unit" id="bd-mins">–</span>
+    <span class="bday-sep">menit</span>
+    <span class="bday-unit" id="bd-secs">–</span>
+    <span class="bday-sep">detik</span>
+  </span>
+  <span>🌸</span>
+</div>
+
 <!-- ════════════════════════════ NAVBAR ════════════════════════════ -->
 <nav class="navbar" id="navbar">
   <a href="#hero" class="nav-brand">Masby & Dekby</a>
   <ul class="nav-links">
     <li><a href="#gallery">Galeri</a></li>
-    <li><a href="#timeline">Kisah Kita</a></li>
-    <li><a href="#letter">Surat Cinta</a></li>
-    <li><a href="#music">Musik</a></li>
+    <!-- <li><a href="#timeline">Kisah Kita</a></li> -->
+    <!-- <li><a href="#letter">Surat Cinta</a></li> -->
+    <!-- <li><a href="#music">Musik</a></li> -->
   </ul>
 </nav>
 
@@ -623,14 +720,14 @@
       ║  dengan path foto kamu (misal: foto/utama.jpg)       ║
       ╚══════════════════════════════════════════════════════╝
     -->
-    <!-- <img src="foto/utama.jpg" alt="Masby & Dekby" class="hero-frame-img" /> -->
-    <div class="hero-frame-placeholder">
+    <img src="foto/utama.jpg" alt="Masby & Dekby" class="hero-frame-img" />
+    <!-- <div class="hero-frame-placeholder">
       <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
         <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
         <path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
       </svg>
       <span>Foto utama kalian<br>di sini</span>
-    </div>
+    </div> -->
   </div>
 
   <div class="hero-hearts">
@@ -641,7 +738,7 @@
 
   <div class="scroll-hint">
     <div class="scroll-line"></div>
-    <span>Scroll</span>
+    <!-- <span>Scroll</span> -->
   </div>
 </section>
 
@@ -669,7 +766,7 @@
 
 <!-- ════════════════════════════ GALLERY ════════════════════════════ -->
 <section class="section" id="gallery">
-  <div class="section-inner">
+  <div class="section-inner" style="max-width: 1000px;">
     <div class="section-eyebrow">— galeri kenangan —</div>
     <h2 class="section-title">Momen <em>Kita</em></h2>
     <div class="ornament">
@@ -678,70 +775,184 @@
       <div class="ornament-line"></div>
     </div>
 
+    <!--
+      ╔══════════════════════════════════════════════════════════════╗
+      ║  CARA GANTI FOTO GALERI (24 slot tersedia):                  ║
+      ║  Simpan foto di folder "foto/" (galeri1.jpg s/d galeri24.jpg)║
+      ║  Pada tiap gallery-item:                                     ║
+      ║    1. Hapus div.gallery-placeholder                          ║
+      ║    2. Uncomment tag <img> di bawahnya                        ║
+      ║    3. Ganti teks di gallery-overlay-text sesuai momen        ║
+      ╚══════════════════════════════════════════════════════════════╝
+    -->
     <div class="gallery-grid">
-      <!--
-        ╔══════════════════════════════════════════════════════════╗
-        ║  CARA GANTI FOTO GALERI:                                 ║
-        ║  Simpan foto di folder "foto/" lalu ganti tiap item:     ║
-        ║  Hapus div.gallery-placeholder dan uncomment <img>       ║
-        ║                                                          ║
-        ║  Contoh:                                                 ║
-        ║  <div class="gallery-item">                              ║
-        ║    <img src="foto/galeri1.jpg" ...>                      ║
-        ║    <div class="gallery-overlay">                         ║
-        ║      <span class="gallery-overlay-text">Nama Momen</span>║
-        ║    </div>                                                 ║
-        ║  </div>                                                  ║
-        ╚══════════════════════════════════════════════════════════╝
-      -->
 
+      <!-- 1 — FEATURED (lebar 2 kolom) -->
       <div class="gallery-item" onclick="openLightbox('')">
-        <!-- <img src="foto/galeri1.jpg" style="width:100%;height:100%;object-fit:cover;" /> -->
-        <div class="gallery-placeholder">
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          <span>Foto kenangan utama</span>
-        </div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Foto Favorit</span></div>
+        <img src="foto/galeri1.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Foto kenangan utama</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Art Date | First time create ART from Clay</span></div>
       </div>
 
+      <!-- 2 -->
       <div class="gallery-item" onclick="openLightbox('')">
-        <div class="gallery-placeholder">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          <span>Pertemuan pertama</span>
-        </div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Awal Kita</span></div>
+        <img src="foto/galeri2.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 2</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Private Birtday Date | 💕</span></div>
       </div>
 
+      <!-- 3 -->
       <div class="gallery-item" onclick="openLightbox('')">
-        <div class="gallery-placeholder">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          <span>Malam spesial</span>
-        </div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Malam Spesial</span></div>
+        <img src="foto/galeri3.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 3</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
       </div>
 
+      <!-- 4 -->
       <div class="gallery-item" onclick="openLightbox('')">
-        <div class="gallery-placeholder">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          <span>Petualangan kita</span>
-        </div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Petualangan</span></div>
+        <img src="foto/galeri4.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 4</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
       </div>
 
+      <!-- 5 -->
       <div class="gallery-item" onclick="openLightbox('')">
-        <div class="gallery-placeholder">
-          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          <span>Hari ulang tahun</span>
-        </div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Ulang Tahun</span></div>
+        <img src="foto/galeri5.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 5</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
       </div>
 
+      <!-- 6 -->
       <div class="gallery-item" onclick="openLightbox('')">
-        <div class="gallery-placeholder">
-          <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          <span>Perjalanan bersama</span>
-        </div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Perjalanan Bersama</span></div>
+        <img src="foto/galeri6.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 6</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
+      </div>
+
+      <!-- 7 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri7.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 7</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
+      </div>
+
+      <!-- 8 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri8.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 8</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
+      </div>
+
+      <!-- 9 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri9.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 9</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Trip | Before Flight Together for First Time</span></div>
+      </div>
+
+      <!-- 10 — FEATURED TENGAH (lebar 2 kolom) -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri10.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen spesial</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
+      </div>
+
+      <!-- 11 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri11.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 11</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Flight Together</span></div>
+      </div>
+
+      <!-- 12 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri12.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 12</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | KFC</span></div>
+      </div>
+
+      <!-- 13 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri13.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 13</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Milo Run</span></div>
+      </div>
+
+      <!-- 14 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri14.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 14</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Shopping Together</span></div>
+      </div>
+
+      <!-- 15 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri15.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 15</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
+      </div>
+
+      <!-- 16 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri16.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 16</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | First Experience Jetski</span></div>
+      </div>
+
+      <!-- 17 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri17.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 17</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | At Bakso GBK</span></div>
+      </div>
+
+      <!-- 18 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri18.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 18</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Cuddle After Gym</span></div>
+      </div>
+
+      <!-- 19 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri19.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 19</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
+      </div>
+
+      <!-- 20 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri20.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 20</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Kafi Studios</span></div>
+      </div>
+
+      <!-- 21 — FEATURED PENUTUP (lebar 2 kolom) -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri21.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen istimewa</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
+      </div>
+
+      <!-- 22 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri22.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 22</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Snorkling Holiday</span></div>
+      </div>
+
+      <!-- 23 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri23.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 23</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Visit Traditional Village</span></div>
+      </div>
+
+      <!-- 24 -->
+      <div class="gallery-item" onclick="openLightbox('')">
+        <img src="foto/galeri24.jpg" loading="lazy" />
+        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 24</span></div> -->
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Pick Up Race Pack Pocari Run</span></div>
       </div>
 
     </div>
@@ -749,7 +960,7 @@
 </section>
 
 <!-- ════════════════════════════ TIMELINE ════════════════════════════ -->
-<section class="section" style="background: linear-gradient(180deg, rgba(237,230,247,0.3), transparent);" id="timeline">
+<section class="section" style="background: linear-gradient(180deg, rgba(237,230,247,0.3), transparent); display:none;" id="timeline"><!-- hapus display:none untuk mengaktifkan kembali -->
   <div class="section-inner">
     <div class="section-eyebrow">— perjalanan cinta kita —</div>
     <h2 class="section-title">Kisah <em>Kita</em></h2>
@@ -804,7 +1015,7 @@
 </section>
 
 <!-- ════════════════════════════ LOVE LETTER ════════════════════════════ -->
-<section class="section" id="letter">
+<section class="section" style="display:none;" id="letter"><!-- hapus display:none untuk mengaktifkan kembali -->
   <div class="section-inner">
     <div class="section-eyebrow">— dari hatiku untukmu —</div>
     <h2 class="section-title">Surat <em>Cinta</em></h2>
@@ -851,7 +1062,7 @@
 </section>
 
 <!-- ════════════════════════════ MUSIC ════════════════════════════ -->
-<section class="section music-section" id="music">
+<section class="section music-section" style="display:none;" id="music"><!-- hapus display:none untuk mengaktifkan kembali -->
   <div class="section-inner">
     <div class="section-eyebrow">— lagu kita —</div>
     <h2 class="section-title">Musik <em>Kita</em></h2>
@@ -914,6 +1125,46 @@
 
 <!-- ════════════════════════════ SCRIPTS ════════════════════════════ -->
 <script>
+  /* ── Birthday Countdown Dekby 27 April 2026 ── */
+  (function bdayTick() {
+    const banner   = document.getElementById('bday-banner');
+    const birthday = new Date('2026-04-27T00:00:00');
+
+    function update() {
+      const now  = new Date();
+      const diff = birthday - now;
+
+      if (diff <= 0) {
+        // Sudah hari ulang tahun atau sudah lewat
+        const today = now;
+        const isSameDay = today.getFullYear() === 2026
+          && today.getMonth() === 3   // April = bulan ke-3 (0-indexed)
+          && today.getDate()  === 27;
+
+        if (isSameDay) {
+          banner.classList.add('bday-today');
+          banner.innerHTML = '🎉 🎂 &nbsp; <strong>HAPPY BIRTHDAY DEKBY TERSAYANG! Selamat ulang tahun ke-28 — semoga selalu bahagia dan sehat ya sayangku 💕</strong> &nbsp; 🎂 🎉';
+        } else {
+          banner.style.display = 'none'; // sudah lewat, sembunyikan
+        }
+        return;
+      }
+
+      const days  = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins  = Math.floor((diff % 3600000)  / 60000);
+      const secs  = Math.floor((diff % 60000)    / 1000);
+
+      document.getElementById('bd-days').textContent  = days;
+      document.getElementById('bd-hours').textContent = String(hours).padStart(2,'0');
+      document.getElementById('bd-mins').textContent  = String(mins).padStart(2,'0');
+      document.getElementById('bd-secs').textContent  = String(secs).padStart(2,'0');
+
+      setTimeout(update, 1000);
+    }
+    update();
+  })();
+
   /* ── Counter Hari Bersama ── */
   (function() {
     const start = new Date('2016-04-12');

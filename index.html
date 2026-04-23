@@ -1216,6 +1216,247 @@
       from { transform: scaleY(0.3); }
       to   { transform: scaleY(1); }
     }
+    /* ── BIRTHDAY ENVELOPE SECTION ── */
+    #bday-envelope-section {
+      display: none;
+      padding: 100px 32px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(247,234,240,0.6), rgba(237,230,247,0.4));
+      position: relative;
+      z-index: 2;
+    }
+    #bday-envelope-section.visible { display: block; }
+
+    .bday-env-eyebrow {
+      font-size: 10px; font-weight: 300;
+      letter-spacing: 4px; text-transform: uppercase;
+      color: var(--rose); margin-bottom: 16px;
+    }
+    .bday-env-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 300; font-style: italic;
+      color: var(--rose-dk);
+      margin-bottom: 48px;
+      line-height: 1.2;
+    }
+
+    /* Envelope */
+    .envelope-wrap {
+      display: inline-block;
+      cursor: pointer;
+      perspective: 800px;
+      margin-bottom: 40px;
+    }
+    .envelope {
+      width: 260px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease;
+    }
+    .envelope-wrap:hover .envelope { transform: scale(1.04); }
+    .envelope-body {
+      width: 260px; height: 180px;
+      background: linear-gradient(145deg, #fce4ec, #f8d7e8);
+      border-radius: 4px 4px 12px 12px;
+      border: 1px solid rgba(212,112,138,0.3);
+      position: relative;
+      box-shadow: 0 8px 32px rgba(158,63,92,0.15);
+      overflow: hidden;
+    }
+    .envelope-body::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 90px;
+      background: linear-gradient(to top, rgba(212,112,138,0.08), transparent);
+    }
+    /* lipatan bawah kiri & kanan */
+    .env-fold-left {
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 90px 0 0 130px;
+      border-color: transparent transparent transparent rgba(212,112,138,0.12);
+    }
+    .env-fold-right {
+      position: absolute; bottom: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 90px 130px 0 0;
+      border-color: transparent rgba(212,112,138,0.12) transparent transparent;
+    }
+    /* tutup amplop (flap) */
+    .envelope-flap {
+      width: 260px; height: 0;
+      border-left:  130px solid transparent;
+      border-right: 130px solid transparent;
+      border-top:   120px solid #f5c2d5;
+      position: absolute; top: 0;
+      transform-origin: top center;
+      transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+      filter: drop-shadow(0 4px 8px rgba(158,63,92,0.1));
+      z-index: 2;
+    }
+    .envelope.open .envelope-flap {
+      transform: rotateX(180deg);
+    }
+    /* seal / stempel */
+    .env-seal {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--rose-dk));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 2px 12px rgba(158,63,92,0.3);
+      transition: opacity 0.4s, transform 0.4s;
+      z-index: 3;
+    }
+    .envelope.open .env-seal { opacity: 0; transform: translate(-50%,-50%) scale(0); }
+
+    /* hint text */
+    .env-hint {
+      font-size: 12px; font-weight: 300;
+      letter-spacing: 1px; color: var(--muted);
+      margin-top: 12px;
+      animation: pulse 2s ease infinite;
+    }
+
+    /* === VERIFIKASI === */
+    #env-verify {
+      display: none;
+      max-width: 420px;
+      margin: 0 auto 24px;
+      animation: fadeUp 0.6s ease forwards;
+    }
+    #env-verify.show { display: block; }
+    .verify-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px; font-style: italic;
+      color: var(--text); margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .verify-input {
+      width: 100%; padding: 12px 20px;
+      border: 1px solid rgba(212,112,138,0.4);
+      border-radius: 40px;
+      background: rgba(253,248,245,0.9);
+      font-family: 'Jost', sans-serif;
+      font-size: 14px; font-weight: 300;
+      color: var(--text);
+      text-align: center;
+      letter-spacing: 1px;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      margin-bottom: 12px;
+    }
+    .verify-input:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(212,112,138,0.12);
+    }
+    .verify-input.wrong {
+      border-color: #e57373;
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-8px); }
+      75%      { transform: translateX(8px); }
+    }
+    .verify-btn {
+      display: inline-block;
+      padding: 10px 36px;
+      background: linear-gradient(135deg, var(--rose), var(--rose-dk));
+      color: white;
+      border: none; border-radius: 40px;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px; font-weight: 300;
+      letter-spacing: 2px; text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(158,63,92,0.25);
+    }
+    .verify-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(158,63,92,0.35);
+    }
+    .verify-err {
+      font-size: 12px; color: #c0415a;
+      margin-top: 8px; letter-spacing: 0.5px;
+      min-height: 18px;
+    }
+
+    /* === SURAT UCAPAN === */
+    #bday-letter {
+      display: none;
+      max-width: 640px;
+      margin: 0 auto;
+      animation: fadeUp 0.8s ease forwards;
+    }
+    #bday-letter.show { display: block; }
+    .bday-letter-card {
+      background: rgba(253,248,245,0.95);
+      border: 1px solid rgba(212,112,138,0.2);
+      border-radius: 20px;
+      padding: 52px 48px;
+      text-align: left;
+      box-shadow: 0 16px 56px rgba(158,63,92,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .bday-letter-card::before {
+      content: '♡';
+      position: absolute; top: -20px; right: 24px;
+      font-size: 120px; color: rgba(212,112,138,0.04);
+      font-family: serif; pointer-events: none;
+    }
+    .bday-letter-date {
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 32px;
+    }
+    .bday-letter-greeting {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; font-style: italic;
+      color: var(--rose-dk);
+      margin-bottom: 28px;
+      line-height: 1.3;
+    }
+    .bday-letter-body {
+      font-size: 15px; font-weight: 300;
+      line-height: 2.1; color: var(--text);
+    }
+    .bday-letter-body p { margin-bottom: 20px; }
+    .bday-letter-body em { font-style: italic; color: var(--rose-dk); }
+    .bday-letter-sign {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-style: italic;
+      color: var(--rose-dk);
+      margin-top: 36px;
+      text-align: right;
+    }
+    .bday-letter-sign small {
+      display: block;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px; font-style: normal;
+      font-weight: 300; letter-spacing: 1.5px;
+      color: var(--muted); margin-top: 6px;
+    }
+    /* confetti burst saat surat terbuka */
+    .confetti-piece {
+      position: fixed;
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall 1.8s ease-out forwards;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
   </style>
 </head>
 
@@ -1315,6 +1556,122 @@
       <!-- <li><a href="#music">Musik</a></li> -->
     </ul>
   </nav>
+
+  <!-- ════════════════════════════ BIRTHDAY ENVELOPE ════════════════════════════ -->
+  <section id="bday-envelope-section">
+    <div class="section-inner" style="max-width:680px;">
+
+      <div class="bday-env-eyebrow">— khusus untukmu, Dekby —</div>
+      <h2 class="bday-env-title">Ada Sesuatu<br>yang Menunggumu ♡</h2>
+
+      <div class="ornament">
+        <div class="ornament-line rev"></div>
+        <span>♡</span>
+        <div class="ornament-line"></div>
+      </div>
+
+      <br><br>
+
+      <!-- AMPLOP -->
+      <div class="envelope-wrap" onclick="openEnvelope()">
+        <div class="envelope" id="the-envelope">
+          <div class="envelope-flap"></div>
+          <div class="envelope-body">
+            <div class="env-fold-left"></div>
+            <div class="env-fold-right"></div>
+          </div>
+          <div class="env-seal">💌</div>
+        </div>
+        <p class="env-hint">klik untuk membuka</p>
+      </div>
+
+      <!-- VERIFIKASI -->
+      <div id="env-verify">
+        <p class="verify-question">
+          "Sebutkan nama yang ku berikan<br>untuk bagian tubuhmu yang paling ku sukai…"
+        </p>
+        <input
+          class="verify-input"
+          id="verify-input"
+          type="text"
+          placeholder="jawaban rahasia kita…"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter') checkAnswer()"
+        />
+        <p class="verify-err" id="verify-err"></p>
+        <button class="verify-btn" onclick="checkAnswer()">Buka Suratnya</button>
+      </div>
+
+      <!-- SURAT ULANG TAHUN -->
+      <div id="bday-letter">
+        <div class="bday-letter-card">
+          <p class="bday-letter-date">27 April 2026 &nbsp;·&nbsp; Hari Ulang Tahunmu yang ke-28</p>
+
+          <p class="bday-letter-greeting">
+            Selamat ulang tahun, Dekby tersayangku…
+          </p>
+
+          <div class="bday-letter-body">
+            <p>
+              Hari ini, tepat 28 tahun yang lalu, dunia kedatangan seseorang
+              yang kelak akan mencuri seluruh hatiku — dan aku bersyukur tak terhingga
+              bahwa orang itu adalah kamu, <em>Kusumaning Ayu Sintaresmi</em>.
+            </p>
+
+            <p>
+              Di hari yang spesial ini, aku ingin kamu tahu betapa bangganya aku
+              melihat perjalananmu. Kamu bukan hanya wanita yang kucintai,
+              kamu adalah seseorang yang kuat, yang terus berjuang dan bertumbuh
+              di tengah semua lika-liku yang pernah kita lalui bersama.
+            </p>
+
+            <p>
+              Untuk karirmu — semoga setiap langkah yang kamu ambil membawa kamu
+              lebih dekat ke tempat yang selalu kamu impikan. Aku percaya pada kemampuanmu,
+              pada kerja kerasmu, dan pada tekadmu yang tidak pernah padam.
+              <em>Kamu layak mendapat yang terbaik, dan kamu akan mendapatkannya.</em>
+            </p>
+
+            <p>
+              Untuk pendidikanmu — semoga ilmu yang kamu kejar menjadi cahaya
+              yang menerangi jalanmu. Semua usahamu, semua malam yang kamu habiskan
+              untuk belajar, tidak akan sia-sia. Aku di sini, selalu mendukungmu
+              dari belakang, bangga menyaksikanmu berkembang.
+            </p>
+
+            <p>
+              Semoga semua harapan yang selama ini tersimpan dalam hatimu
+              mulai satu per satu terkabul dan terealisasi di tahun ke-28 ini.
+              Semoga rezeki datang dari arah yang tidak pernah kamu sangka.
+              Semoga kesehatan selalu menyertaimu. Semoga kamu terus dikelilingi
+              oleh orang-orang yang benar-benar mencintaimu.
+            </p>
+
+            <p>
+              Dan satu hal yang selalu ada dalam setiap doaku —
+              <em>semoga kelak, di waktu yang tepat yang telah Allah siapkan,
+              aku diizinkan untuk meminangmu.</em>
+              Untuk menjadikanmu bukan hanya kekasihku,
+              tapi juga pendampingku seumur hidup.
+              Aku ingin menulis nama kita berdua di halaman yang sama,
+              selamanya.
+            </p>
+
+            <p>
+              Sampai hari itu tiba — aku di sini, mencintaimu diam-diam
+              dan dengan sepenuh jiwa.
+            </p>
+          </div>
+
+          <div class="bday-letter-sign">
+            Selamanya milikmu, Masby
+            <small>27 · 04 · 2026 &nbsp;—&nbsp; dengan seluruh cinta yang kupunya</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <!-- ════════════════════════════ HERO ════════════════════════════ -->
   <section class="hero" id="hero">
@@ -1769,6 +2126,7 @@
     </div>
   </section>
 
+  <!-- ════════════════════════════ BIRTHDAY ENVELOPE ════════════════════════════ -->
   <!-- ════════════════════════════ FOOTER ════════════════════════════ -->
   <footer class="footer">
     <div class="footer-names">Muhammad Gilang &amp; Kusumaning Ayu</div>
@@ -1911,18 +2269,36 @@
       update();
     })();
 
-    /* ── Counter Hari Bersama ── */
+    /* ── Counter Hari Bersama (dengan jeda) ──
+       Periode 1 : 12 April 2016  →  1 Mei 2023   (kandas)
+       Periode 2 : 1 Juli 2024    →  sekarang      (bersama kembali)
+       Ganti tanggal di bawah jika ada tanggal yang lebih spesifik. */
     (function () {
-      const start = new Date('2016-04-12');
-      const now = new Date();
-      let y = now.getFullYear() - start.getFullYear();
-      let m = now.getMonth() - start.getMonth();
-      let d = now.getDate() - start.getDate();
-      if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+      const p1Start = new Date('2016-04-12');
+      const p1End   = new Date('2023-05-15');
+      const p2Start = new Date('2024-04-20');
+      const now     = new Date();
+
+      /* total milidetik bersama dari kedua periode */
+      const totalMs = (p1End - p1Start) + (now - p2Start);
+
+      /* buat "tanggal setara" = hari ini mundur sejumlah total waktu bersama
+         lalu hitung selisih kalender secara benar */
+      const equiv = new Date(now - totalMs);
+
+      let y = now.getFullYear() - equiv.getFullYear();
+      let m = now.getMonth()    - equiv.getMonth();
+      let d = now.getDate()     - equiv.getDate();
+
+      if (d < 0) {
+        m--;
+        d += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+      }
       if (m < 0) { y--; m += 12; }
-      document.getElementById('cnt-years').textContent = y;
+
+      document.getElementById('cnt-years').textContent  = y;
       document.getElementById('cnt-months').textContent = m;
-      document.getElementById('cnt-days').textContent = d;
+      document.getElementById('cnt-days').textContent   = d;
     })();
 
     /* ── Navbar scroll effect ── */
@@ -1977,6 +2353,88 @@
       });
     }, { threshold: 0.2 });
     tlItems.forEach(el => observer.observe(el));
+
+    /* ── Birthday Envelope Section ── */
+    (function() {
+      const section  = document.getElementById('bday-envelope-section');
+      const birthday = new Date('2026-04-27T00:00:00');
+      const now      = new Date();
+
+      /* tampilkan section hanya jika sudah hari ulang tahun */
+      if (now >= birthday) {
+        section.classList.add('visible');
+      }
+    })();
+
+    let envelopeOpened = false;
+
+    function openEnvelope() {
+      const env    = document.getElementById('the-envelope');
+      const verify = document.getElementById('env-verify');
+      const hint   = document.querySelector('.env-hint');
+
+      if (!envelopeOpened) {
+        /* buka */
+        envelopeOpened = true;
+        env.classList.add('open');
+        hint.textContent = 'klik lagi untuk menutup';
+        setTimeout(() => verify.classList.add('show'), 800);
+      } else {
+        /* tutup — sembunyikan juga surat & verifikasi */
+        envelopeOpened = false;
+        env.classList.remove('open');
+        hint.textContent = 'klik untuk membuka';
+        verify.classList.remove('show');
+        document.getElementById('bday-letter').classList.remove('show');
+        document.getElementById('env-verify').style.display = '';
+        setTimeout(() => {
+          document.getElementById('verify-input').value = '';
+          document.getElementById('verify-err').textContent = '';
+        }, 400);
+      }
+    }
+
+    function checkAnswer() {
+      const input = document.getElementById('verify-input');
+      const err   = document.getElementById('verify-err');
+      const answer = input.value.trim().toLowerCase();
+
+      if (answer === 'velma') {
+        /* jawaban benar — tampilkan surat + confetti */
+        input.classList.remove('wrong');
+        err.textContent = '';
+        document.getElementById('env-verify').style.display = 'none';
+        document.getElementById('bday-letter').classList.add('show');
+        launchConfetti();
+        document.getElementById('bday-letter').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        /* jawaban salah */
+        input.classList.add('wrong');
+        err.textContent = 'Hmm, coba ingat lagi ya sayang… 🌸';
+        setTimeout(() => input.classList.remove('wrong'), 500);
+        input.value = '';
+      }
+    }
+
+    function launchConfetti() {
+      const colors = ['#d4708a','#b8a0d8','#f5c2d5','#fce4ec','#c084fc','#f9a8d4'];
+      for (let i = 0; i < 80; i++) {
+        setTimeout(() => {
+          const c = document.createElement('div');
+          c.className = 'confetti-piece';
+          c.style.left        = Math.random() * 100 + 'vw';
+          c.style.top         = '-10px';
+          c.style.background  = colors[Math.floor(Math.random() * colors.length)];
+          c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          c.style.width       = (6 + Math.random() * 8) + 'px';
+          c.style.height      = (6 + Math.random() * 8) + 'px';
+          c.style.animationDuration = (1.2 + Math.random() * 1.2) + 's';
+          c.style.animationDelay    = (Math.random() * 0.4) + 's';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 2800);
+        }, i * 18);
+      }
+    }
   </script>
 </body>
 

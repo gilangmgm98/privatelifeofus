@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,25 +8,35 @@
   <meta name="description" content="Sebuah ruang kecil milik kita berdua — Masby & Dekby" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400&display=swap"
+    rel="stylesheet" />
   <style>
     :root {
-      --rose:      #d4708a;
-      --rose-lt:   #f5d6e0;
-      --rose-dk:   #9e3f5c;
-      --lavender:  #b8a0d8;
-      --lav-lt:    #ede6f7;
-      --lav-dk:    #6b4ea0;
-      --blush:     #f7eaf0;
-      --cream:     #fdf8f5;
-      --text:      #3a2535;
-      --muted:     #9a7a8a;
-      --line:      rgba(180,130,160,0.2);
+      --rose: #d4708a;
+      --rose-lt: #f5d6e0;
+      --rose-dk: #9e3f5c;
+      --lavender: #b8a0d8;
+      --lav-lt: #ede6f7;
+      --lav-dk: #6b4ea0;
+      --blush: #f7eaf0;
+      --cream: #fdf8f5;
+      --text: #3a2535;
+      --muted: #9a7a8a;
+      --line: rgba(180, 130, 160, 0.2);
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: 'Jost', sans-serif;
@@ -37,18 +48,25 @@
 
     /* ── CUSTOM CURSOR ── */
     .cursor {
-      width: 8px; height: 8px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: var(--rose);
-      position: fixed; pointer-events: none; z-index: 9999;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
       transform: translate(-50%, -50%);
       transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
     }
+
     .cursor-ring {
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 1px solid var(--rose);
-      position: fixed; pointer-events: none; z-index: 9998;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
       transform: translate(-50%, -50%);
       transition: left 0.12s ease, top 0.12s ease, width 0.3s, height 0.3s;
       opacity: 0.5;
@@ -56,9 +74,13 @@
 
     /* ── FLOATING PETALS ── */
     .petals-canvas {
-      position: fixed; inset: 0; pointer-events: none; z-index: 1;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
       overflow: hidden;
     }
+
     .petal {
       position: absolute;
       top: -30px;
@@ -66,32 +88,59 @@
       animation: petalFall linear infinite;
       opacity: 0;
     }
+
     @keyframes petalFall {
-      0%   { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
-      5%   { opacity: 0.6; }
-      90%  { opacity: 0.4; }
-      100% { transform: translateY(105vh) rotate(540deg) translateX(40px); opacity: 0; }
+      0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0;
+      }
+
+      5% {
+        opacity: 0.6;
+      }
+
+      90% {
+        opacity: 0.4;
+      }
+
+      100% {
+        transform: translateY(105vh) rotate(540deg) translateX(40px);
+        opacity: 0;
+      }
     }
 
     /* ── NOISE TEXTURE ── */
     body::before {
       content: '';
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
       opacity: 0.4;
     }
 
     /* ── NAVBAR ── */
     .navbar {
-      position: sticky; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 20px 48px;
-      background: rgba(253,248,245,0.82);
+      background: rgba(253, 248, 245, 0.82);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--line);
       transition: padding 0.4s;
     }
-    .navbar.scrolled { padding: 14px 48px; }
+
+    .navbar.scrolled {
+      padding: 14px 48px;
+    }
+
     .nav-brand {
       font-family: 'Cormorant Garamond', serif;
       font-size: 22px;
@@ -100,7 +149,13 @@
       letter-spacing: 0.5px;
       text-decoration: none;
     }
-    .nav-links { display: flex; gap: 36px; list-style: none; }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
     .nav-links a {
       font-size: 11px;
       font-weight: 300;
@@ -111,25 +166,39 @@
       transition: color 0.3s;
       position: relative;
     }
+
     .nav-links a::after {
       content: '';
-      position: absolute; bottom: -3px; left: 0;
-      width: 0; height: 1px;
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1px;
       background: var(--rose);
       transition: width 0.3s;
     }
-    .nav-links a:hover { color: var(--rose-dk); }
-    .nav-links a:hover::after { width: 100%; }
+
+    .nav-links a:hover {
+      color: var(--rose-dk);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
 
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       padding: 60px 32px 80px;
-      position: relative; z-index: 2;
+      position: relative;
+      z-index: 2;
     }
+
     .hero-eyebrow {
       font-size: 10px;
       font-weight: 300;
@@ -140,6 +209,7 @@
       opacity: 0;
       animation: fadeUp 1s ease 0.3s forwards;
     }
+
     .hero-title {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(56px, 10vw, 96px);
@@ -150,15 +220,18 @@
       opacity: 0;
       animation: fadeUp 1s ease 0.5s forwards;
     }
+
     .hero-title em {
       font-style: italic;
       color: var(--rose-dk);
     }
+
     .hero-title .amp {
       font-style: italic;
       color: var(--lavender);
       font-size: 0.85em;
     }
+
     .hero-tagline {
       font-size: 14px;
       font-weight: 200;
@@ -174,149 +247,271 @@
     /* photo frame */
     .hero-frame {
       position: relative;
-      width: 260px; height: 320px;
+      width: 260px;
+      height: 320px;
       margin: 0 auto 52px;
       opacity: 0;
       animation: fadeUp 1s ease 0.9s forwards;
     }
+
     .hero-frame-img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       border-radius: 50% 50% 48% 52% / 42% 42% 58% 58%;
       display: block;
     }
+
     .hero-frame-placeholder {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       border-radius: 50% 50% 48% 52% / 42% 42% 58% 58%;
       background: linear-gradient(145deg, var(--rose-lt), var(--lav-lt));
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 8px; color: var(--muted); font-size: 13px; font-weight: 300;
-      border: 2px solid rgba(200,150,180,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 300;
+      border: 2px solid rgba(200, 150, 180, 0.3);
     }
-    .hero-frame-placeholder svg { opacity: 0.45; margin-bottom: 4px; }
+
+    .hero-frame-placeholder svg {
+      opacity: 0.45;
+      margin-bottom: 4px;
+    }
+
     .frame-ring {
       position: absolute;
       inset: -16px;
       border-radius: 50% 50% 48% 52% / 42% 42% 58% 58%;
-      border: 1px dashed rgba(180,140,170,0.35);
+      border: 1px dashed rgba(180, 140, 170, 0.35);
       animation: spinRing 24s linear infinite;
     }
+
     .frame-ring-2 {
       position: absolute;
       inset: -28px;
       border-radius: 50% 50% 48% 52% / 42% 42% 58% 58%;
-      border: 1px solid rgba(180,140,170,0.15);
+      border: 1px solid rgba(180, 140, 170, 0.15);
       animation: spinRing 36s linear infinite reverse;
     }
-    @keyframes spinRing { to { transform: rotate(360deg); } }
+
+    @keyframes spinRing {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     /* since badge */
     .since-badge {
-      display: inline-flex; align-items: center; gap: 12px;
-      border: 1px solid rgba(180,140,160,0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid rgba(180, 140, 160, 0.35);
       border-radius: 40px;
       padding: 10px 28px;
-      font-size: 12px; font-weight: 300;
+      font-size: 12px;
+      font-weight: 300;
       letter-spacing: 2px;
       color: var(--muted);
       margin-bottom: 52px;
       opacity: 0;
       animation: fadeUp 1s ease 1.1s forwards;
     }
-    .since-badge .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--rose); display: inline-block; }
+
+    .since-badge .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--rose);
+      display: inline-block;
+    }
 
     /* hearts */
     .hero-hearts {
-      display: flex; gap: 12px; align-items: center;
+      display: flex;
+      gap: 12px;
+      align-items: center;
       opacity: 0;
       animation: fadeUp 1s ease 1.3s forwards;
     }
+
     .heart-pulse {
       color: var(--rose);
       font-size: 28px;
       animation: pulse 2.2s ease-in-out infinite;
     }
-    .heart-sm { color: var(--lavender); font-size: 18px; }
-    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+    .heart-sm {
+      color: var(--lavender);
+      font-size: 18px;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* scroll indicator */
     .scroll-hint {
-      position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted);
-      opacity: 0; animation: fadeUp 1s ease 1.8s forwards;
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 1s ease 1.8s forwards;
     }
+
     .scroll-line {
-      width: 1px; height: 40px;
+      width: 1px;
+      height: 40px;
       background: linear-gradient(to bottom, var(--rose), transparent);
       animation: scrollLine 2s ease-in-out infinite;
     }
-    @keyframes scrollLine { 0%,100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.5); opacity: 0.4; } }
+
+    @keyframes scrollLine {
+
+      0%,
+      100% {
+        transform: scaleY(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scaleY(0.5);
+        opacity: 0.4;
+      }
+    }
 
     /* ── COUNTER STRIP ── */
     .counter-strip {
-      position: relative; z-index: 2;
-      background: linear-gradient(135deg, rgba(212,112,138,0.08), rgba(184,160,216,0.1));
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(135deg, rgba(212, 112, 138, 0.08), rgba(184, 160, 216, 0.1));
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
       padding: 36px 32px;
     }
+
     .counter-inner {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      max-width: 640px; margin: 0 auto;
+      max-width: 640px;
+      margin: 0 auto;
     }
+
     .counter-cell {
       text-align: center;
       padding: 12px 8px;
       border-right: 1px solid var(--line);
     }
-    .counter-cell:last-child { border-right: none; }
+
+    .counter-cell:last-child {
+      border-right: none;
+    }
+
     .counter-num {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 48px; font-weight: 300;
+      font-size: 48px;
+      font-weight: 300;
       color: var(--rose-dk);
       line-height: 1;
       margin-bottom: 8px;
     }
+
     .counter-lbl {
-      font-size: 10px; font-weight: 300;
-      letter-spacing: 2.5px; text-transform: uppercase;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
       color: var(--muted);
     }
 
     /* ── SECTION COMMON ── */
     .section {
-      position: relative; z-index: 2;
+      position: relative;
+      z-index: 2;
       padding: 96px 32px;
     }
-    .section-inner { max-width: 720px; margin: 0 auto; }
+
+    .section-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
     .section-eyebrow {
-      font-size: 10px; font-weight: 300;
-      letter-spacing: 3.5px; text-transform: uppercase;
-      color: var(--rose); text-align: center;
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      text-align: center;
       margin-bottom: 12px;
     }
+
     .section-title {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 42px; font-weight: 300;
-      color: var(--text); text-align: center;
-      margin-bottom: 16px; line-height: 1.2;
+      font-size: 42px;
+      font-weight: 300;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 16px;
+      line-height: 1.2;
     }
-    .section-title em { font-style: italic; color: var(--rose-dk); }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--rose-dk);
+    }
+
     .ornament {
-      display: flex; align-items: center; justify-content: center;
-      gap: 14px; margin: 0 auto 52px; color: var(--lavender);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 0 auto 52px;
+      color: var(--lavender);
     }
+
     .ornament-line {
-      height: 1px; width: 64px;
+      height: 1px;
+      width: 64px;
       background: linear-gradient(to right, transparent, var(--lavender));
     }
-    .ornament-line.rev { background: linear-gradient(to left, transparent, var(--lavender)); }
+
+    .ornament-line.rev {
+      background: linear-gradient(to left, transparent, var(--lavender));
+    }
 
     /* ── GALLERY ── */
     .gallery-grid {
@@ -326,8 +521,10 @@
       max-width: 960px;
       margin: 0 auto;
     }
+
     .gallery-item {
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
       border-radius: 12px;
       aspect-ratio: 1;
       background: linear-gradient(145deg, var(--rose-lt), var(--lav-lt));
@@ -353,64 +550,122 @@
       filter: blur(0) brightness(1.05) saturate(1.1);
       transform: scale(1.04) translateZ(0);
       opacity: 1;
-      box-shadow: 0 12px 40px rgba(158,63,92,0.3);
+      box-shadow: 0 12px 40px rgba(158, 63, 92, 0.3);
       z-index: 2;
     }
 
     .gallery-item img {
-      width: 100%; height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       display: block;
-      transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
       will-change: transform;
     }
-    .gallery-item:hover img { transform: scale(1.06); }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
     /* foto unggulan: baris pertama — foto 1 lebar 2 kolom, foto 2 & 3 kotak */
-    .gallery-item:nth-child(1) { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-item:nth-child(1) {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
     /* foto tengah — foto 10 lebar 2 kolom sebagai aksen */
-    .gallery-item:nth-child(10) { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-item:nth-child(10) {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
     /* foto penutup — foto 21 lebar 2 kolom */
-    .gallery-item:nth-child(21) { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-item:nth-child(21) {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
     .gallery-placeholder {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 8px; padding: 20px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px;
       min-height: 160px;
     }
-    .gallery-placeholder svg { opacity: 0.3; }
+
+    .gallery-placeholder svg {
+      opacity: 0.3;
+    }
+
     .gallery-placeholder span {
-      font-size: 11px; font-weight: 300;
-      letter-spacing: 1px; color: var(--muted);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: var(--muted);
       text-align: center;
     }
+
     .gallery-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(60,20,40,0.5), transparent);
-      opacity: 0; transition: opacity 0.3s;
-      display: flex; align-items: flex-end;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(60, 20, 40, 0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: flex-end;
       padding: 16px;
     }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
-    .gallery-overlay-text {
-      font-size: 12px; font-weight: 300;
-      letter-spacing: 1px; color: white;
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
     }
+
+    .gallery-overlay-text {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: white;
+    }
+
     /* LIGHTBOX */
     .lightbox {
-      position: fixed; inset: 0; z-index: 500;
-      background: rgba(30,10,20,0.92);
-      display: none; align-items: center; justify-content: center;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(30, 10, 20, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
     }
-    .lightbox.open { display: flex; }
-    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 8px; }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 8px;
+    }
+
     .lightbox-close {
-      position: absolute; top: 24px; right: 32px;
-      font-size: 28px; color: rgba(255,255,255,0.7);
-      cursor: pointer; font-weight: 200;
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      font-weight: 200;
       transition: color 0.2s;
     }
-    .lightbox-close:hover { color: white; }
+
+    .lightbox-close:hover {
+      color: white;
+    }
 
     /* ── HOW TO REPLACE PHOTO (comment in code) ── */
 
@@ -421,12 +676,17 @@
       max-width: 560px;
       margin: 0 auto;
     }
+
     .timeline::before {
       content: '';
-      position: absolute; left: 6px; top: 8px; bottom: 8px;
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
       width: 1px;
       background: linear-gradient(to bottom, transparent, var(--rose) 15%, var(--lavender) 85%, transparent);
     }
+
     .tl-item {
       position: relative;
       margin-bottom: 48px;
@@ -435,168 +695,303 @@
       transform: translateX(-16px);
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
-    .tl-item.visible { opacity: 1; transform: translateX(0); }
+
+    .tl-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
     .tl-dot {
-      position: absolute; left: -26px; top: 5px;
-      width: 14px; height: 14px; border-radius: 50%;
+      position: absolute;
+      left: -26px;
+      top: 5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
       background: var(--cream);
       border: 2px solid var(--rose);
       transition: background 0.3s, border-color 0.3s;
     }
-    .tl-item:hover .tl-dot { background: var(--rose); }
-    .tl-date {
-      font-size: 10px; font-weight: 300;
-      letter-spacing: 2.5px; text-transform: uppercase;
-      color: var(--rose); margin-bottom: 5px;
+
+    .tl-item:hover .tl-dot {
+      background: var(--rose);
     }
+
+    .tl-date {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 5px;
+    }
+
     .tl-event {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 22px; font-weight: 400;
-      color: var(--text); margin-bottom: 8px;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 8px;
       line-height: 1.3;
     }
+
     .tl-desc {
-      font-size: 14px; font-weight: 300;
-      color: var(--muted); line-height: 1.9;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
     }
 
     /* ── LOVE LETTER ── */
     .letter-wrap {
-      max-width: 600px; margin: 0 auto;
-      background: rgba(255,250,253,0.9);
-      border: 1px solid rgba(200,160,180,0.3);
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(255, 250, 253, 0.9);
+      border: 1px solid rgba(200, 160, 180, 0.3);
       border-radius: 24px;
       padding: 56px 52px;
       position: relative;
-      box-shadow: 0 20px 60px rgba(160,80,120,0.06);
+      box-shadow: 0 20px 60px rgba(160, 80, 120, 0.06);
     }
+
     .letter-deco {
-      position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
       background: var(--cream);
       padding: 0 16px;
-      font-size: 18px; color: var(--rose);
+      font-size: 18px;
+      color: var(--rose);
     }
+
     .letter-quote-mark {
-      position: absolute; top: 12px; left: 28px;
+      position: absolute;
+      top: 12px;
+      left: 28px;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 160px; line-height: 1;
-      color: rgba(212,112,138,0.07);
+      font-size: 160px;
+      line-height: 1;
+      color: rgba(212, 112, 138, 0.07);
       pointer-events: none;
       user-select: none;
     }
+
     .letter-greeting {
       font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 26px;
+      font-style: italic;
+      font-size: 26px;
       color: var(--rose-dk);
       text-align: center;
       margin-bottom: 32px;
     }
+
     .letter-body {
-      font-size: 15px; font-weight: 300;
-      line-height: 2.2; color: #5a3a50;
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 2.2;
+      color: #5a3a50;
       text-align: justify;
     }
-    .letter-body p { margin-bottom: 20px; }
-    .letter-body p:last-child { margin-bottom: 0; }
+
+    .letter-body p {
+      margin-bottom: 20px;
+    }
+
+    .letter-body p:last-child {
+      margin-bottom: 0;
+    }
+
     .letter-sep {
-      display: flex; align-items: center; justify-content: center;
-      gap: 12px; margin: 32px 0; color: var(--lavender);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 32px 0;
+      color: var(--lavender);
     }
+
     .letter-sep-line {
-      width: 48px; height: 1px;
-      background: var(--lavender); opacity: 0.5;
+      width: 48px;
+      height: 1px;
+      background: var(--lavender);
+      opacity: 0.5;
     }
+
     .letter-sign {
       text-align: right;
       font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 20px;
+      font-style: italic;
+      font-size: 20px;
       color: var(--rose-dk);
     }
+
     .letter-sign small {
       display: block;
       font-family: 'Jost', sans-serif;
-      font-size: 11px; font-weight: 300;
-      font-style: normal; letter-spacing: 1.5px;
-      color: var(--muted); margin-top: 4px;
+      font-size: 11px;
+      font-weight: 300;
+      font-style: normal;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin-top: 4px;
     }
 
     /* ── MUSIC PLAYER ── */
-    .music-section { background: linear-gradient(135deg, rgba(212,112,138,0.06), rgba(184,160,216,0.08)); }
+    .music-section {
+      background: linear-gradient(135deg, rgba(212, 112, 138, 0.06), rgba(184, 160, 216, 0.08));
+    }
+
     .music-player {
-      max-width: 560px; margin: 0 auto;
-      background: rgba(255,250,253,0.85);
-      border: 1px solid rgba(200,160,180,0.25);
+      max-width: 560px;
+      margin: 0 auto;
+      background: rgba(255, 250, 253, 0.85);
+      border: 1px solid rgba(200, 160, 180, 0.25);
       border-radius: 20px;
       overflow: hidden;
     }
+
     .music-embed {
       width: 100%;
       border: none;
       display: block;
     }
+
     .music-info {
       padding: 20px 24px;
-      display: flex; align-items: center; gap: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
       border-top: 1px solid var(--line);
     }
-    .music-icon { font-size: 22px; animation: spin 4s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .music-text { font-size: 12px; font-weight: 300; color: var(--muted); letter-spacing: 0.5px; }
-    .music-text strong { color: var(--rose-dk); font-weight: 400; }
+
+    .music-icon {
+      font-size: 22px;
+      animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .music-text {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    .music-text strong {
+      color: var(--rose-dk);
+      font-weight: 400;
+    }
 
     /* PLACEHOLDER — ganti iframe src dengan link YouTube/Spotify embed kamu */
     .music-placeholder {
       padding: 40px 24px;
       text-align: center;
     }
-    .music-placeholder p { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.8; }
+
+    .music-placeholder p {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
     .music-placeholder code {
-      font-size: 11px; background: var(--lav-lt); padding: 2px 8px; border-radius: 4px; color: var(--lav-dk);
+      font-size: 11px;
+      background: var(--lav-lt);
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: var(--lav-dk);
     }
 
     /* ── FOOTER ── */
     .footer {
-      position: relative; z-index: 2;
+      position: relative;
+      z-index: 2;
       text-align: center;
       padding: 64px 32px 48px;
       border-top: 1px solid var(--line);
     }
+
     .footer-names {
       font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 32px;
-      color: var(--rose-dk); margin-bottom: 12px;
+      font-style: italic;
+      font-size: 32px;
+      color: var(--rose-dk);
+      margin-bottom: 12px;
     }
+
     .footer-heart {
-      color: var(--rose); font-size: 22px;
-      display: block; margin: 14px auto;
+      color: var(--rose);
+      font-size: 22px;
+      display: block;
+      margin: 14px auto;
       animation: pulse 2.2s ease-in-out infinite;
     }
+
     .footer-sub {
-      font-size: 12px; font-weight: 300;
-      letter-spacing: 1px; color: var(--muted);
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: var(--muted);
       margin-bottom: 6px;
     }
+
     .footer-since {
-      font-size: 11px; font-weight: 300;
-      letter-spacing: 2.5px; text-transform: uppercase;
-      color: rgba(154,122,138,0.6);
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(154, 122, 138, 0.6);
       margin-top: 28px;
     }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      .navbar { padding: 16px 20px; }
-      .nav-links { gap: 20px; }
-      .hero { padding: 100px 20px 60px; }
-      .section { padding: 64px 20px; }
-      .counter-inner { grid-template-columns: repeat(2, 1fr); }
-      .counter-cell:nth-child(2) { border-right: none; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .navbar {
+        padding: 16px 20px;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .hero {
+        padding: 100px 20px 60px;
+      }
+
+      .section {
+        padding: 64px 20px;
+      }
+
+      .counter-inner {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .counter-cell:nth-child(2) {
+        border-right: none;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
       .gallery-item:nth-child(1),
       .gallery-item:nth-child(10),
-      .gallery-item:nth-child(21) { grid-column: span 2; }
-      .letter-wrap { padding: 36px 24px; }
+      .gallery-item:nth-child(21) {
+        grid-column: span 2;
+      }
+
+      .letter-wrap {
+        padding: 36px 24px;
+      }
     }
+
     /* ── Birthday Banner ── */
     #bday-banner {
       position: relative;
@@ -616,18 +1011,29 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+
     @keyframes bdayShimmer {
-      0%   { background-position: 0% 50%; }
-      100% { background-position: 200% 50%; }
+      0% {
+        background-position: 0% 50%;
+      }
+
+      100% {
+        background-position: 200% 50%;
+      }
     }
-    #bday-banner strong { font-weight: 500; }
+
+    #bday-banner strong {
+      font-weight: 500;
+    }
+
     #bday-countdown {
       display: inline-flex;
       gap: 6px;
       align-items: center;
     }
+
     .bday-unit {
-      background: rgba(255,255,255,0.45);
+      background: rgba(255, 255, 255, 0.45);
       border-radius: 6px;
       padding: 2px 8px;
       font-weight: 500;
@@ -635,7 +1041,12 @@
       min-width: 38px;
       text-align: center;
     }
-    .bday-sep { opacity: 0.6; font-size: 12px; }
+
+    .bday-sep {
+      opacity: 0.6;
+      font-size: 12px;
+    }
+
     #bday-banner.bday-today {
       background: linear-gradient(90deg, #ffb3c6, #f9a8d4, #c084fc, #ffb3c6);
       background-size: 300% 100%;
@@ -643,76 +1054,293 @@
       font-size: 14px;
       padding: 14px 16px;
     }
+    /* ── VINYL PLAYER ── */
+    #vinyl-player {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    /* label lagu */
+    #vinyl-label-wrap {
+      background: rgba(253,248,245,0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(180,130,160,0.25);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.6px;
+      white-space: nowrap;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+    }
+    #vinyl-player:hover #vinyl-label-wrap {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #vinyl-song-name { color: var(--rose-dk); font-weight: 400; }
+
+    /* kontrol prev / next */
+    #vinyl-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+    }
+    #vinyl-player:hover #vinyl-controls {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .vinyl-ctrl-btn {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(253,248,245,0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(180,130,160,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      color: var(--rose-dk);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .vinyl-ctrl-btn:hover {
+      background: white;
+      transform: scale(1.12);
+      box-shadow: 0 4px 14px rgba(158,63,92,0.2);
+    }
+
+    /* track indicator dots */
+    #vinyl-dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .v-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: rgba(180,130,160,0.3);
+      transition: background 0.3s, transform 0.3s;
+    }
+    .v-dot.active {
+      background: var(--rose);
+      transform: scale(1.3);
+    }
+
+    /* piringan vinyl */
+    #vinyl-disc {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      position: relative;
+      animation: vinylSpin 4s linear infinite;
+      animation-play-state: paused;
+      transition: box-shadow 0.4s ease;
+      flex-shrink: 0;
+    }
+    #vinyl-disc.playing {
+      animation-play-state: running;
+      box-shadow: 0 6px 28px rgba(158,63,92,0.35);
+    }
+    @keyframes vinylSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* SVG vinyl — lingkaran groove */
+    #vinyl-disc svg {
+      width: 100%; height: 100%;
+      display: block;
+      border-radius: 50%;
+    }
+
+    /* tombol play/pause di tengah */
+    #vinyl-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(253,248,245,0.92);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      color: var(--rose-dk);
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+    }
+    #vinyl-disc:hover #vinyl-btn {
+      background: white;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    /* equalizer bars saat playing */
+    #vinyl-eq {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+      height: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    #vinyl-player.playing #vinyl-eq { opacity: 1; }
+    .eq-bar {
+      width: 3px;
+      border-radius: 2px;
+      background: var(--rose);
+      animation: eqBounce 0.6s ease infinite alternate;
+    }
+    .eq-bar:nth-child(1) { height: 6px;  animation-delay: 0s;    animation-duration: 0.5s; }
+    .eq-bar:nth-child(2) { height: 12px; animation-delay: 0.15s; animation-duration: 0.7s; }
+    .eq-bar:nth-child(3) { height: 8px;  animation-delay: 0.05s; animation-duration: 0.55s; }
+    .eq-bar:nth-child(4) { height: 10px; animation-delay: 0.2s;  animation-duration: 0.65s; }
+    @keyframes eqBounce {
+      from { transform: scaleY(0.3); }
+      to   { transform: scaleY(1); }
+    }
   </style>
 </head>
+
 <body>
 
-<!-- Custom Cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- Floating Petals -->
-<div class="petals-canvas" id="petals"></div>
+  <!-- Floating Petals -->
+  <div class="petals-canvas" id="petals"></div>
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-  <span class="lightbox-close" onclick="closeLightbox()">×</span>
-  <img id="lightbox-img" src="" alt="" />
-</div>
-
-<!-- ════════════════════════════ BIRTHDAY BANNER ════════════════════════════ -->
-<div id="bday-banner">
-  <span>🌸</span>
-  <span>Ulang tahun Dekby ke-28 &nbsp;—&nbsp; 27 April 2026 &nbsp;—&nbsp; tinggal</span>
-  <span id="bday-countdown">
-    <span class="bday-unit" id="bd-days">–</span>
-    <span class="bday-sep">hari</span>
-    <span class="bday-unit" id="bd-hours">–</span>
-    <span class="bday-sep">jam</span>
-    <span class="bday-unit" id="bd-mins">–</span>
-    <span class="bday-sep">menit</span>
-    <span class="bday-unit" id="bd-secs">–</span>
-    <span class="bday-sep">detik</span>
-  </span>
-  <span>🌸</span>
-</div>
-
-<!-- ════════════════════════════ NAVBAR ════════════════════════════ -->
-<nav class="navbar" id="navbar">
-  <a href="#hero" class="nav-brand">Masby & Dekby</a>
-  <ul class="nav-links">
-    <li><a href="#gallery">Galeri</a></li>
-    <!-- <li><a href="#timeline">Kisah Kita</a></li> -->
-    <!-- <li><a href="#letter">Surat Cinta</a></li> -->
-    <!-- <li><a href="#music">Musik</a></li> -->
-  </ul>
-</nav>
-
-<!-- ════════════════════════════ HERO ════════════════════════════ -->
-<section class="hero" id="hero">
-  <div class="hero-eyebrow">✦ &nbsp; sebuah cerita cinta yang nyata &nbsp; ✦</div>
-
-  <h1 class="hero-title">
-    <em>Masby</em>
-    <span class="amp">&amp;</span>
-    <em>Dekby</em>
-  </h1>
-
-  <p class="hero-tagline">
-    Setiap momen bersamamu adalah kenangan<br>
-    yang ingin kuingat hingga nafas terakhirku
-  </p>
-
-  <div class="since-badge">
-    <span class="dot"></span>
-    Bersama sejak 12 April 2016
-    <span class="dot"></span>
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <img id="lightbox-img" src="" alt="" />
   </div>
 
-  <div class="hero-frame">
-    <div class="frame-ring-2"></div>
-    <div class="frame-ring"></div>
-    <!--
+  <!-- ════════════════════════════ VINYL PLAYER ════════════════════════════ -->
+  <!--
+    CARA TAMBAH / GANTI LAGU:
+    Edit array "playlist" di bagian <script> bawah.
+    Tambah objek: { title: "Judul Lagu", artist: "Nama Artis", src: "musik/nama-file.mp3" }
+    Simpan semua file MP3 di folder "musik/"
+  -->
+  <audio id="vinyl-audio" muted autoplay></audio>
+
+  <div id="vinyl-player">
+    <div id="vinyl-label-wrap">
+      ♪ &nbsp;<span id="vinyl-song-name">Music Player</span>
+      <span id="vinyl-song-artist" style="display:block; font-size:10px; opacity:0.7; margin-top:1px;"></span>
+    </div>
+
+    <div id="vinyl-controls">
+      <div class="vinyl-ctrl-btn" onclick="vinylPrev()" title="Sebelumnya">◀◀</div>
+
+      <div id="vinyl-disc" onclick="toggleVinyl()">
+        <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="vg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#3a2535"/>
+              <stop offset="30%"  stop-color="#2a1525"/>
+              <stop offset="100%" stop-color="#1a0d18"/>
+            </radialGradient>
+          </defs>
+          <circle cx="36" cy="36" r="36" fill="url(#vg)"/>
+          <circle cx="36" cy="36" r="32" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="36" cy="36" r="28" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="36" cy="36" r="24" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="36" cy="36" r="20" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="36" cy="36" r="16" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="36" cy="36" r="12" fill="#d4708a"/>
+          <circle cx="36" cy="36" r="10" fill="#c4607a"/>
+          <circle cx="36" cy="36" r="3"  fill="rgba(255,255,255,0.15)"/>
+          <ellipse cx="28" cy="22" rx="5" ry="3" fill="rgba(255,255,255,0.06)" transform="rotate(-30 28 22)"/>
+        </svg>
+        <div id="vinyl-btn">▶</div>
+      </div>
+
+      <div class="vinyl-ctrl-btn" onclick="vinylNext()" title="Selanjutnya">▶▶</div>
+    </div>
+
+    <div id="vinyl-dots"></div>
+
+    <div id="vinyl-eq">
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+      <div class="eq-bar"></div>
+    </div>
+  </div>
+
+<!-- ════════════════════════════ BIRTHDAY BANNER ════════════════════════════ -->
+  <div id="bday-banner">
+    <span>🌸</span>
+    <span>Ulang tahun Dekby ke-28 &nbsp;—&nbsp; 27 April 2026 &nbsp;—&nbsp; tinggal</span>
+    <span id="bday-countdown">
+      <span class="bday-unit" id="bd-days">–</span>
+      <span class="bday-sep">hari</span>
+      <span class="bday-unit" id="bd-hours">–</span>
+      <span class="bday-sep">jam</span>
+      <span class="bday-unit" id="bd-mins">–</span>
+      <span class="bday-sep">menit</span>
+      <span class="bday-unit" id="bd-secs">–</span>
+      <span class="bday-sep">detik</span>
+    </span>
+    <span>🌸</span>
+  </div>
+
+  <!-- ════════════════════════════ NAVBAR ════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <a href="#hero" class="nav-brand">Masby & Dekby</a>
+    <ul class="nav-links">
+      <li><a href="#gallery">Galeri</a></li>
+      <!-- <li><a href="#timeline">Kisah Kita</a></li> -->
+      <!-- <li><a href="#letter">Surat Cinta</a></li> -->
+      <!-- <li><a href="#music">Musik</a></li> -->
+    </ul>
+  </nav>
+
+  <!-- ════════════════════════════ HERO ════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow">✦ &nbsp; sebuah cerita cinta yang nyata &nbsp; ✦</div>
+
+    <h1 class="hero-title">
+      <em>Masby</em>
+      <span class="amp">&amp;</span>
+      <em>Dekby</em>
+    </h1>
+
+    <p class="hero-tagline">
+      Setiap momen bersamamu adalah kenangan<br>
+      yang ingin kuingat hingga nafas terakhirku
+    </p>
+
+    <div class="since-badge">
+      <span class="dot"></span>
+      Bersama sejak 12 April 2016
+      <span class="dot"></span>
+    </div>
+
+    <div class="hero-frame">
+      <div class="frame-ring-2"></div>
+      <div class="frame-ring"></div>
+      <!--
       ╔══════════════════════════════════════════════════════╗
       ║  CARA GANTI FOTO UTAMA:                              ║
       ║  Hapus div.hero-frame-placeholder di bawah ini,     ║
@@ -720,360 +1348,387 @@
       ║  dengan path foto kamu (misal: foto/utama.jpg)       ║
       ╚══════════════════════════════════════════════════════╝
     -->
-    <img src="foto/utama.jpg" alt="Masby & Dekby" class="hero-frame-img" />
-    <!-- <div class="hero-frame-placeholder">
+      <img src="foto/utama.jpg" alt="Masby & Dekby" class="hero-frame-img" />
+      <!-- <div class="hero-frame-placeholder">
       <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
         <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
         <path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
       </svg>
       <span>Foto utama kalian<br>di sini</span>
     </div> -->
+    </div>
+
+    <div class="hero-hearts">
+      <span class="heart-sm">♡</span>
+      <span class="heart-pulse">♥</span>
+      <span class="heart-sm">♡</span>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <!-- <span>Scroll</span> -->
+    </div>
+  </section>
+
+  <!-- ════════════════════════════ COUNTER ════════════════════════════ -->
+  <div class="counter-strip">
+    <div class="counter-inner">
+      <div class="counter-cell">
+        <div class="counter-num" id="cnt-years">0</div>
+        <div class="counter-lbl">Tahun</div>
+      </div>
+      <div class="counter-cell">
+        <div class="counter-num" id="cnt-months">0</div>
+        <div class="counter-lbl">Bulan</div>
+      </div>
+      <div class="counter-cell">
+        <div class="counter-num" id="cnt-days">0</div>
+        <div class="counter-lbl">Hari</div>
+      </div>
+      <div class="counter-cell">
+        <div class="counter-num">∞</div>
+        <div class="counter-lbl">Cinta</div>
+      </div>
+    </div>
   </div>
 
-  <div class="hero-hearts">
-    <span class="heart-sm">♡</span>
-    <span class="heart-pulse">♥</span>
-    <span class="heart-sm">♡</span>
-  </div>
+  <!-- ════════════════════════════ GALLERY ════════════════════════════ -->
+  <section class="section" id="gallery">
+    <div class="section-inner" style="max-width: 1000px;">
+      <div class="section-eyebrow">— galeri kenangan —</div>
+      <h2 class="section-title">Momen <em>Kita</em></h2>
+      <div class="ornament">
+        <div class="ornament-line rev"></div>
+        <span>♡</span>
+        <div class="ornament-line"></div>
+      </div>
 
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <!-- <span>Scroll</span> -->
-  </div>
-</section>
-
-<!-- ════════════════════════════ COUNTER ════════════════════════════ -->
-<div class="counter-strip">
-  <div class="counter-inner">
-    <div class="counter-cell">
-      <div class="counter-num" id="cnt-years">0</div>
-      <div class="counter-lbl">Tahun</div>
-    </div>
-    <div class="counter-cell">
-      <div class="counter-num" id="cnt-months">0</div>
-      <div class="counter-lbl">Bulan</div>
-    </div>
-    <div class="counter-cell">
-      <div class="counter-num" id="cnt-days">0</div>
-      <div class="counter-lbl">Hari</div>
-    </div>
-    <div class="counter-cell">
-      <div class="counter-num">∞</div>
-      <div class="counter-lbl">Cinta</div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════ GALLERY ════════════════════════════ -->
-<section class="section" id="gallery">
-  <div class="section-inner" style="max-width: 1000px;">
-    <div class="section-eyebrow">— galeri kenangan —</div>
-    <h2 class="section-title">Momen <em>Kita</em></h2>
-    <div class="ornament">
-      <div class="ornament-line rev"></div>
-      <span>♡</span>
-      <div class="ornament-line"></div>
-    </div>
-
-    <!--
+      <!--
       ╔══════════════════════════════════════════════════════════════╗
       ║  CARA GANTI FOTO GALERI (24 slot tersedia):                  ║
-      ║  Simpan foto di folder "foto/" (galeri1.jpg s/d galeri24.jpg)║
+      ║  Simpan foto di folder "foto/" (galeri1.jpg s/d galeri25.jpg)║
       ║  Pada tiap gallery-item:                                     ║
       ║    1. Hapus div.gallery-placeholder                          ║
       ║    2. Uncomment tag <img> di bawahnya                        ║
       ║    3. Ganti teks di gallery-overlay-text sesuai momen        ║
       ╚══════════════════════════════════════════════════════════════╝
     -->
-    <div class="gallery-grid">
+      <div class="gallery-grid">
 
-      <!-- 1 — FEATURED (lebar 2 kolom) -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri1.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Foto kenangan utama</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Art Date | First time create ART from Clay</span></div>
+        <!-- 1 — FEATURED (lebar 2 kolom) -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri1.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Foto kenangan utama</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Art Date | First time create ART from
+              Clay</span></div>
+        </div>
+
+        <!-- 2 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri2.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 2</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Private Birtday Date | 💕</span></div>
+        </div>
+
+        <!-- 3 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri3.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 3</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
+        </div>
+
+        <!-- 4 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri4.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 4</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
+        </div>
+
+        <!-- 5 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri5.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 5</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
+        </div>
+
+        <!-- 6 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri6.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 6</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
+        </div>
+
+        <!-- 7 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri7.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 7</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
+        </div>
+
+        <!-- 8 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri8.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 8</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
+        </div>
+
+        <!-- 9 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri9.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 9</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Trip | Before Flight Together for
+              First Time</span></div>
+        </div>
+
+        <!-- 10 — FEATURED TENGAH (lebar 2 kolom) -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri10.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen spesial</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
+        </div>
+
+        <!-- 11 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri11.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 11</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Flight Together</span></div>
+        </div>
+
+        <!-- 12 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri12.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 12</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | KFC</span></div>
+        </div>
+
+        <!-- 13 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri13.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 13</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Milo Run</span></div>
+        </div>
+
+        <!-- 14 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri14.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 14</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Shopping Together</span></div>
+        </div>
+
+        <!-- 15 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri15.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 15</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
+        </div>
+
+        <!-- 16 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri16.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 16</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | First Experience Jetski</span></div>
+        </div>
+
+        <!-- 17 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri17.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 17</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | At Bakso GBK</span></div>
+        </div>
+
+        <!-- 18 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri18.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 18</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Cuddle After Gym</span></div>
+        </div>
+
+        <!-- 19 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri19.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 19</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
+        </div>
+
+        <!-- 20 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri20.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 20</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Kafi Studios</span></div>
+        </div>
+
+        <!-- 21 — FEATURED PENUTUP (lebar 2 kolom) -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri21.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen istimewa</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
+        </div>
+
+        <!-- 22 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri22.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 22</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Snorkling Holiday</span></div>
+        </div>
+
+        <!-- 23 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri23.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 23</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Visit Traditional
+              Village</span></div>
+        </div>
+
+        <!-- 24 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri24.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 24</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Pick Up Race Pack Pocari
+              Run</span></div>
+        </div>
+
+        <!-- 25 -->
+        <div class="gallery-item" onclick="openLightbox('')">
+          <img src="foto/galeri25.jpg" loading="lazy" />
+          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 24</span></div> -->
+          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Photobooth Blok M</span></div>
+        </div>
+
       </div>
-
-      <!-- 2 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri2.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 2</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Private Birtday Date | 💕</span></div>
-      </div>
-
-      <!-- 3 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri3.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 3</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
-      </div>
-
-      <!-- 4 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri4.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 4</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
-      </div>
-
-      <!-- 5 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri5.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 5</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
-      </div>
-
-      <!-- 6 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri6.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 6</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
-      </div>
-
-      <!-- 7 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri7.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 7</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
-      </div>
-
-      <!-- 8 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri8.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 8</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
-      </div>
-
-      <!-- 9 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri9.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 9</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Trip | Before Flight Together for First Time</span></div>
-      </div>
-
-      <!-- 10 — FEATURED TENGAH (lebar 2 kolom) -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri10.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen spesial</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
-      </div>
-
-      <!-- 11 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri11.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 11</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Flight Together</span></div>
-      </div>
-
-      <!-- 12 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri12.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 12</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | KFC</span></div>
-      </div>
-
-      <!-- 13 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri13.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 13</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Milo Run</span></div>
-      </div>
-
-      <!-- 14 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri14.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 14</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Shopping Together</span></div>
-      </div>
-
-      <!-- 15 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri15.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 15</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
-      </div>
-
-      <!-- 16 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri16.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 16</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | First Experience Jetski</span></div>
-      </div>
-
-      <!-- 17 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri17.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 17</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | At Bakso GBK</span></div>
-      </div>
-
-      <!-- 18 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri18.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 18</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Cuddle After Gym</span></div>
-      </div>
-
-      <!-- 19 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri19.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 19</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
-      </div>
-
-      <!-- 20 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri20.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 20</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Kafi Studios</span></div>
-      </div>
-
-      <!-- 21 — FEATURED PENUTUP (lebar 2 kolom) -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri21.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen istimewa</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
-      </div>
-
-      <!-- 22 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri22.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 22</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Snorkling Holiday</span></div>
-      </div>
-
-      <!-- 23 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri23.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 23</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Visit Traditional Village</span></div>
-      </div>
-
-      <!-- 24 -->
-      <div class="gallery-item" onclick="openLightbox('')">
-        <img src="foto/galeri24.jpg" loading="lazy" />
-        <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 24</span></div> -->
-        <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Pick Up Race Pack Pocari Run</span></div>
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ════════════════════════════ TIMELINE ════════════════════════════ -->
-<section class="section" style="background: linear-gradient(180deg, rgba(237,230,247,0.3), transparent); display:none;" id="timeline"><!-- hapus display:none untuk mengaktifkan kembali -->
-  <div class="section-inner">
-    <div class="section-eyebrow">— perjalanan cinta kita —</div>
-    <h2 class="section-title">Kisah <em>Kita</em></h2>
-    <div class="ornament">
-      <div class="ornament-line rev"></div>
-      <span>♡</span>
-      <div class="ornament-line"></div>
+  <!-- ════════════════════════════ TIMELINE ════════════════════════════ -->
+  <section class="section"
+    style="background: linear-gradient(180deg, rgba(237,230,247,0.3), transparent); display:none;" id="timeline">
+    <!-- hapus display:none untuk mengaktifkan kembali -->
+    <div class="section-inner">
+      <div class="section-eyebrow">— perjalanan cinta kita —</div>
+      <h2 class="section-title">Kisah <em>Kita</em></h2>
+      <div class="ornament">
+        <div class="ornament-line rev"></div>
+        <span>♡</span>
+        <div class="ornament-line"></div>
+      </div>
+
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">12 April 2016</div>
+          <div class="tl-event">Awal dari Segalanya</div>
+          <div class="tl-desc">
+            Di sinilah semuanya dimulai — saat kita memilih satu sama lain untuk pertama kalinya. Hari itu, tanpa sadar,
+            kita mulai menulis cerita yang paling indah dalam hidup kita bersama.
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Akan ditambahkan</div>
+          <div class="tl-event">Momen Spesial Pertama</div>
+          <div class="tl-desc">
+            <!-- Ganti dengan momen nyata kalian -->
+            Setiap kenangan bersamamu terasa seperti hadiah yang tak ternilai — momen-momen kecil yang tanpa kamu
+            sadari, telah menjadi bagian terpenting dari hidupku.
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Akan ditambahkan</div>
+          <div class="tl-event">Perjalanan yang Membentuk Kita</div>
+          <div class="tl-desc">
+            <!-- Ganti dengan momen nyata kalian -->
+            Ada hari-hari yang tidak mudah, tapi justru di sanalah kita menemukan betapa kuatnya kita ketika bersama.
+            Setiap tantangan yang kita hadapi hanya membuat kita semakin erat.
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Kini &amp; Selamanya</div>
+          <div class="tl-event">Terus Merajut Mimpi Bersama</div>
+          <div class="tl-desc">
+            Dan perjalanan kita masih terus berlanjut — lebih dalam, lebih indah, dan penuh dengan hal-hal yang ingin
+            kita capai bersama. Ini bukan akhir, ini hanya satu bab dari cerita panjang kita.
+          </div>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="timeline">
+  <!-- ════════════════════════════ LOVE LETTER ════════════════════════════ -->
+  <section class="section" style="display:none;" id="letter"><!-- hapus display:none untuk mengaktifkan kembali -->
+    <div class="section-inner">
+      <div class="section-eyebrow">— dari hatiku untukmu —</div>
+      <h2 class="section-title">Surat <em>Cinta</em></h2>
+      <div class="ornament">
+        <div class="ornament-line rev"></div>
+        <span>♡</span>
+        <div class="ornament-line"></div>
+      </div>
 
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">12 April 2016</div>
-        <div class="tl-event">Awal dari Segalanya</div>
-        <div class="tl-desc">
-          Di sinilah semuanya dimulai — saat kita memilih satu sama lain untuk pertama kalinya. Hari itu, tanpa sadar, kita mulai menulis cerita yang paling indah dalam hidup kita bersama.
+      <div class="letter-wrap">
+        <div class="letter-deco">✦</div>
+        <div class="letter-quote-mark">"</div>
+
+        <div class="letter-greeting">Untuk Dekby, cintaku…</div>
+
+        <div class="letter-body">
+          <p>
+            Tidak ada kata yang cukup untuk menggambarkan betapa bersyukurnya aku setiap kali menyadari bahwa kamu
+            adalah milikku, dan aku adalah milikmu. Kamu bukan sekadar seseorang yang hadir dalam hidupku — kamu adalah
+            alasan mengapa setiap harinya terasa lebih berarti dari hari sebelumnya.
+          </p>
+          <p>
+            Telah begitu banyak yang kita lewati bersama — tawa yang tulus, air mata yang jujur, momen-momen sederhana
+            yang tanpa sadar menjadi kenangan paling berharga. Ada hari-hari yang terasa berat, ada jalan yang terasa
+            panjang, namun di setiap langkahnya — aku selalu menemukan kekuatan hanya dengan melihat kamu ada di sisiku.
+          </p>
+          <p>
+            Terima kasih, Dekby sayang. Terima kasih karena telah memilihku hari demi hari, bahkan di hari-hari ketika
+            memilihku bukan hal yang mudah. Terima kasih karena tidak pernah berhenti, tidak pernah menyerah, dan tidak
+            pernah pergi. Terima kasih telah melewati semua ini bersamaku — setiap suka dan dukanya, setiap naik dan
+            turunnya — kamu selalu di sana, dan itu adalah hal yang paling kupegang erat.
+          </p>
+          <p>
+            Kamu adalah rumah yang paling nyaman yang pernah aku kenal, dan aku tidak pernah ingin pulang ke tempat lain
+            selain ke dalam pelukanmu. Untuk setiap tahun, setiap bulan, setiap hari yang telah kita jalani bersama —
+            terima kasih. Dan untuk semua yang masih akan datang — aku tidak bisa membayangkan menjalaninya tanpa kamu.
+          </p>
+        </div>
+
+        <div class="letter-sep">
+          <div class="letter-sep-line"></div>
+          <span style="font-size:16px;">♡</span>
+          <div class="letter-sep-line"></div>
+        </div>
+
+        <div class="letter-sign">
+          Selamanya milikmu, Masby
+          <small>12 April 2016 — Hingga selama-lamanya</small>
         </div>
       </div>
 
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Akan ditambahkan</div>
-        <div class="tl-event">Momen Spesial Pertama</div>
-        <div class="tl-desc">
-          <!-- Ganti dengan momen nyata kalian -->
-          Setiap kenangan bersamamu terasa seperti hadiah yang tak ternilai — momen-momen kecil yang tanpa kamu sadari, telah menjadi bagian terpenting dari hidupku.
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Akan ditambahkan</div>
-        <div class="tl-event">Perjalanan yang Membentuk Kita</div>
-        <div class="tl-desc">
-          <!-- Ganti dengan momen nyata kalian -->
-          Ada hari-hari yang tidak mudah, tapi justru di sanalah kita menemukan betapa kuatnya kita ketika bersama. Setiap tantangan yang kita hadapi hanya membuat kita semakin erat.
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-date">Kini &amp; Selamanya</div>
-        <div class="tl-event">Terus Merajut Mimpi Bersama</div>
-        <div class="tl-desc">
-          Dan perjalanan kita masih terus berlanjut — lebih dalam, lebih indah, dan penuh dengan hal-hal yang ingin kita capai bersama. Ini bukan akhir, ini hanya satu bab dari cerita panjang kita.
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ════════════════════════════ LOVE LETTER ════════════════════════════ -->
-<section class="section" style="display:none;" id="letter"><!-- hapus display:none untuk mengaktifkan kembali -->
-  <div class="section-inner">
-    <div class="section-eyebrow">— dari hatiku untukmu —</div>
-    <h2 class="section-title">Surat <em>Cinta</em></h2>
-    <div class="ornament">
-      <div class="ornament-line rev"></div>
-      <span>♡</span>
-      <div class="ornament-line"></div>
-    </div>
-
-    <div class="letter-wrap">
-      <div class="letter-deco">✦</div>
-      <div class="letter-quote-mark">"</div>
-
-      <div class="letter-greeting">Untuk Dekby, cintaku…</div>
-
-      <div class="letter-body">
-        <p>
-          Tidak ada kata yang cukup untuk menggambarkan betapa bersyukurnya aku setiap kali menyadari bahwa kamu adalah milikku, dan aku adalah milikmu. Kamu bukan sekadar seseorang yang hadir dalam hidupku — kamu adalah alasan mengapa setiap harinya terasa lebih berarti dari hari sebelumnya.
-        </p>
-        <p>
-          Telah begitu banyak yang kita lewati bersama — tawa yang tulus, air mata yang jujur, momen-momen sederhana yang tanpa sadar menjadi kenangan paling berharga. Ada hari-hari yang terasa berat, ada jalan yang terasa panjang, namun di setiap langkahnya — aku selalu menemukan kekuatan hanya dengan melihat kamu ada di sisiku.
-        </p>
-        <p>
-          Terima kasih, Dekby sayang. Terima kasih karena telah memilihku hari demi hari, bahkan di hari-hari ketika memilihku bukan hal yang mudah. Terima kasih karena tidak pernah berhenti, tidak pernah menyerah, dan tidak pernah pergi. Terima kasih telah melewati semua ini bersamaku — setiap suka dan dukanya, setiap naik dan turunnya — kamu selalu di sana, dan itu adalah hal yang paling kupegang erat.
-        </p>
-        <p>
-          Kamu adalah rumah yang paling nyaman yang pernah aku kenal, dan aku tidak pernah ingin pulang ke tempat lain selain ke dalam pelukanmu. Untuk setiap tahun, setiap bulan, setiap hari yang telah kita jalani bersama — terima kasih. Dan untuk semua yang masih akan datang — aku tidak bisa membayangkan menjalaninya tanpa kamu.
-        </p>
+  <!-- ════════════════════════════ MUSIC ════════════════════════════ -->
+  <section class="section music-section" style="display:none;" id="music">
+    <!-- hapus display:none untuk mengaktifkan kembali -->
+    <div class="section-inner">
+      <div class="section-eyebrow">— lagu kita —</div>
+      <h2 class="section-title">Musik <em>Kita</em></h2>
+      <div class="ornament">
+        <div class="ornament-line rev"></div>
+        <span>♡</span>
+        <div class="ornament-line"></div>
       </div>
 
-      <div class="letter-sep">
-        <div class="letter-sep-line"></div>
-        <span style="font-size:16px;">♡</span>
-        <div class="letter-sep-line"></div>
-      </div>
-
-      <div class="letter-sign">
-        Selamanya milikmu, Masby
-        <small>12 April 2016 — Hingga selama-lamanya</small>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ════════════════════════════ MUSIC ════════════════════════════ -->
-<section class="section music-section" style="display:none;" id="music"><!-- hapus display:none untuk mengaktifkan kembali -->
-  <div class="section-inner">
-    <div class="section-eyebrow">— lagu kita —</div>
-    <h2 class="section-title">Musik <em>Kita</em></h2>
-    <div class="ornament">
-      <div class="ornament-line rev"></div>
-      <span>♡</span>
-      <div class="ornament-line"></div>
-    </div>
-
-    <div class="music-player">
-      <!--
+      <div class="music-player">
+        <!--
         ╔══════════════════════════════════════════════════════════════════╗
         ║  CARA MENAMBAHKAN MUSIK:                                         ║
         ║                                                                  ║
@@ -1094,143 +1749,235 @@
         ║  </iframe>                                                       ║
         ╚══════════════════════════════════════════════════════════════════╝
       -->
-      <div class="music-placeholder">
-        <p>
-          Ganti bagian ini dengan embed YouTube atau Spotify lagu kalian 🎵<br>
-          Lihat komentar di kode HTML untuk panduan lengkapnya.<br><br>
-          <code>YouTube</code> &nbsp;atau&nbsp; <code>Spotify</code>
-        </p>
-      </div>
+        <div class="music-placeholder">
+          <p>
+            Ganti bagian ini dengan embed YouTube atau Spotify lagu kalian 🎵<br>
+            Lihat komentar di kode HTML untuk panduan lengkapnya.<br><br>
+            <code>YouTube</code> &nbsp;atau&nbsp; <code>Spotify</code>
+          </p>
+        </div>
 
-      <div class="music-info">
-        <span class="music-icon">♪</span>
-        <div class="music-text">
-          <strong>Lagu Kita</strong><br>
-          Musik yang selalu mengingatkanku padamu
+        <div class="music-info">
+          <span class="music-icon">♪</span>
+          <div class="music-text">
+            <strong>Lagu Kita</strong><br>
+            Musik yang selalu mengingatkanku padamu
+          </div>
         </div>
       </div>
+
     </div>
+  </section>
 
-  </div>
-</section>
+  <!-- ════════════════════════════ FOOTER ════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-names">Muhammad Gilang &amp; Kusumaning Ayu</div>
+    <span class="footer-heart">♥</span>
+    <p class="footer-sub">Dibuat dengan sepenuh hati untuk Dekby tersayang</p>
+    <p class="footer-sub" style="margin-top:4px; font-size:11px; opacity:0.7;">privatelifeofus.com</p>
+    <div class="footer-since">Bersama sejak &nbsp; 12 · 04 · 2016</div>
+  </footer>
 
-<!-- ════════════════════════════ FOOTER ════════════════════════════ -->
-<footer class="footer">
-  <div class="footer-names">Muhammad Gilang &amp; Kusumaning Ayu</div>
-  <span class="footer-heart">♥</span>
-  <p class="footer-sub">Dibuat dengan sepenuh hati untuk Dekby tersayang</p>
-  <p class="footer-sub" style="margin-top:4px; font-size:11px; opacity:0.7;">privatelifeofus.com</p>
-  <div class="footer-since">Bersama sejak &nbsp; 12 · 04 · 2016</div>
-</footer>
-
-<!-- ════════════════════════════ SCRIPTS ════════════════════════════ -->
-<script>
-  /* ── Birthday Countdown Dekby 27 April 2026 ── */
-  (function bdayTick() {
-    const banner   = document.getElementById('bday-banner');
-    const birthday = new Date('2026-04-27T00:00:00');
-
-    function update() {
-      const now  = new Date();
-      const diff = birthday - now;
-
-      if (diff <= 0) {
-        // Sudah hari ulang tahun atau sudah lewat
-        const today = now;
-        const isSameDay = today.getFullYear() === 2026
-          && today.getMonth() === 3   // April = bulan ke-3 (0-indexed)
-          && today.getDate()  === 27;
-
-        if (isSameDay) {
-          banner.classList.add('bday-today');
-          banner.innerHTML = '🎉 🎂 &nbsp; <strong>HAPPY BIRTHDAY DEKBY TERSAYANG! Selamat ulang tahun ke-28 — semoga selalu bahagia dan sehat ya sayangku 💕</strong> &nbsp; 🎂 🎉';
-        } else {
-          banner.style.display = 'none'; // sudah lewat, sembunyikan
-        }
-        return;
-      }
-
-      const days  = Math.floor(diff / 86400000);
-      const hours = Math.floor((diff % 86400000) / 3600000);
-      const mins  = Math.floor((diff % 3600000)  / 60000);
-      const secs  = Math.floor((diff % 60000)    / 1000);
-
-      document.getElementById('bd-days').textContent  = days;
-      document.getElementById('bd-hours').textContent = String(hours).padStart(2,'0');
-      document.getElementById('bd-mins').textContent  = String(mins).padStart(2,'0');
-      document.getElementById('bd-secs').textContent  = String(secs).padStart(2,'0');
-
-      setTimeout(update, 1000);
-    }
-    update();
-  })();
-
-  /* ── Counter Hari Bersama ── */
+  <!-- ════════════════════════════ SCRIPTS ════════════════════════════ -->
+  <script>
+    /* ── Vinyl Music Player ── */
   (function() {
-    const start = new Date('2016-04-12');
-    const now   = new Date();
-    let y = now.getFullYear() - start.getFullYear();
-    let m = now.getMonth()    - start.getMonth();
-    let d = now.getDate()     - start.getDate();
-    if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
-    if (m < 0) { y--; m += 12; }
-    document.getElementById('cnt-years').textContent  = y;
-    document.getElementById('cnt-months').textContent = m;
-    document.getElementById('cnt-days').textContent   = d;
+
+    /* ╔══════════════════════════════════════════════════════╗
+       ║  TAMBAH LAGU: edit array playlist di bawah ini       ║
+       ║  Simpan file MP3 di folder "musik/"                  ║
+       ║  Format: { title, artist, src }                      ║
+       ╚══════════════════════════════════════════════════════╝ */
+    const playlist = [
+      { title: "I Remember",  artist: "Mocca",  src: "musik/I Remember.mp3" },
+      { title: "Nothing's Gonna Change My Love For You",  artist: "Artis",  src: "musik/Nothing's Gonna Change My Love For You.mp3" },
+      // { title: "Lagu Kita 3",  artist: "Artis",  src: "musik/lagu3.mp3" },
+    ];
+
+    const audio      = document.getElementById('vinyl-audio');
+    const disc       = document.getElementById('vinyl-disc');
+    const btn        = document.getElementById('vinyl-btn');
+    const player     = document.getElementById('vinyl-player');
+    const songName   = document.getElementById('vinyl-song-name');
+    const songArtist = document.getElementById('vinyl-song-artist');
+    const dotsWrap   = document.getElementById('vinyl-dots');
+
+    let current = 0;
+
+    /* buat indicator dots sesuai jumlah lagu */
+    function buildDots() {
+      dotsWrap.innerHTML = '';
+      playlist.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'v-dot' + (i === current ? ' active' : '');
+        d.onclick = () => loadTrack(i, true);
+        dotsWrap.appendChild(d);
+      });
+    }
+
+    function updateDots() {
+      dotsWrap.querySelectorAll('.v-dot').forEach((d, i) => {
+        d.classList.toggle('active', i === current);
+      });
+    }
+
+    function loadTrack(index, autoplay) {
+      current = (index + playlist.length) % playlist.length;
+      const track = playlist[current];
+      audio.src = track.src;
+      songName.textContent   = track.title;
+      songArtist.textContent = track.artist;
+      updateDots();
+      if (autoplay) audio.play().catch(() => {});
+    }
+
+    function setPlaying(state) {
+      if (state) {
+        disc.classList.add('playing');
+        player.classList.add('playing');
+        btn.textContent = '❚❚';
+      } else {
+        disc.classList.remove('playing');
+        player.classList.remove('playing');
+        btn.textContent = '▶';
+      }
+    }
+
+    window.toggleVinyl = function() {
+      if (audio.paused) audio.play().catch(() => {});
+      else audio.pause();
+    };
+
+    window.vinylNext = function() { loadTrack(current + 1, true); };
+    window.vinylPrev = function() { loadTrack(current - 1, true); };
+
+    audio.addEventListener('play',  () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
+    audio.addEventListener('ended', () => window.vinylNext());
+
+    /* autoplay muted, unmute saat interaksi pertama */
+    audio.volume = 0.5;
+    function unmuteOnce() {
+      audio.muted = false;
+      ['click','scroll','keydown','touchstart'].forEach(e =>
+        document.removeEventListener(e, unmuteOnce));
+    }
+    ['click','scroll','keydown','touchstart'].forEach(e =>
+      document.addEventListener(e, unmuteOnce));
+
+    /* init */
+    buildDots();
+    loadTrack(0, false);
+
   })();
 
-  /* ── Navbar scroll effect ── */
-  window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
-  });
+  /* ── Birthday Countdown Dekby 27 April 2026 ── */
+    (function bdayTick() {
+      const banner = document.getElementById('bday-banner');
+      const birthday = new Date('2026-04-27T00:00:00');
 
-  /* ── Custom Cursor ── */
-  const cur  = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  document.addEventListener('mousemove', e => {
-    cur.style.left  = e.clientX + 'px';
-    cur.style.top   = e.clientY + 'px';
-    ring.style.left = e.clientX + 'px';
-    ring.style.top  = e.clientY + 'px';
-  });
+      function update() {
+        const now = new Date();
+        const diff = birthday - now;
 
-  /* ── Floating Petals ── */
-  const petalEmoji = ['🌸','🌷','✿','❀','🌺'];
-  const canvas = document.getElementById('petals');
-  for (let i = 0; i < 14; i++) {
-    const p = document.createElement('div');
-    p.className = 'petal';
-    p.textContent = petalEmoji[i % petalEmoji.length];
-    p.style.left          = Math.random() * 100 + '%';
-    p.style.animationDuration  = (10 + Math.random() * 14) + 's';
-    p.style.animationDelay     = (Math.random() * 12) + 's';
-    p.style.fontSize      = (10 + Math.random() * 6) + 'px';
-    canvas.appendChild(p);
-  }
+        if (diff <= 0) {
+          // Sudah hari ulang tahun atau sudah lewat
+          const today = now;
+          const isSameDay = today.getFullYear() === 2026
+            && today.getMonth() === 3   // April = bulan ke-3 (0-indexed)
+            && today.getDate() === 27;
 
-  /* ── Lightbox ── */
-  function openLightbox(src) {
-    if (!src) return;
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox').classList.add('open');
-  }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-  }
-  document.getElementById('lightbox').addEventListener('click', function(e) {
-    if (e.target === this) closeLightbox();
-  });
+          if (isSameDay) {
+            banner.classList.add('bday-today');
+            banner.innerHTML = '🎉 🎂 &nbsp; <strong>HAPPY BIRTHDAY DEKBY TERSAYANG! Selamat ulang tahun ke-28 — semoga selalu bahagia dan sehat ya sayangku 💕</strong> &nbsp; 🎂 🎉';
+          } else {
+            banner.style.display = 'none'; // sudah lewat, sembunyikan
+          }
+          return;
+        }
 
-  /* ── Timeline scroll reveal ── */
-  const tlItems = document.querySelectorAll('.tl-item');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 150);
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const mins = Math.floor((diff % 3600000) / 60000);
+        const secs = Math.floor((diff % 60000) / 1000);
+
+        document.getElementById('bd-days').textContent = days;
+        document.getElementById('bd-hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('bd-mins').textContent = String(mins).padStart(2, '0');
+        document.getElementById('bd-secs').textContent = String(secs).padStart(2, '0');
+
+        setTimeout(update, 1000);
       }
+      update();
+    })();
+
+    /* ── Counter Hari Bersama ── */
+    (function () {
+      const start = new Date('2016-04-12');
+      const now = new Date();
+      let y = now.getFullYear() - start.getFullYear();
+      let m = now.getMonth() - start.getMonth();
+      let d = now.getDate() - start.getDate();
+      if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+      if (m < 0) { y--; m += 12; }
+      document.getElementById('cnt-years').textContent = y;
+      document.getElementById('cnt-months').textContent = m;
+      document.getElementById('cnt-days').textContent = d;
+    })();
+
+    /* ── Navbar scroll effect ── */
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
     });
-  }, { threshold: 0.2 });
-  tlItems.forEach(el => observer.observe(el));
-</script>
+
+    /* ── Custom Cursor ── */
+    const cur = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top = e.clientY + 'px';
+      ring.style.left = e.clientX + 'px';
+      ring.style.top = e.clientY + 'px';
+    });
+
+    /* ── Floating Petals ── */
+    const petalEmoji = ['🌸', '🌷', '✿', '❀', '🌺'];
+    const canvas = document.getElementById('petals');
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = petalEmoji[i % petalEmoji.length];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (10 + Math.random() * 14) + 's';
+      p.style.animationDelay = (Math.random() * 12) + 's';
+      p.style.fontSize = (10 + Math.random() * 6) + 'px';
+      canvas.appendChild(p);
+    }
+
+    /* ── Lightbox ── */
+    function openLightbox(src) {
+      if (!src) return;
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.getElementById('lightbox').addEventListener('click', function (e) {
+      if (e.target === this) closeLightbox();
+    });
+
+    /* ── Timeline scroll reveal ── */
+    const tlItems = document.querySelectorAll('.tl-item');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 150);
+        }
+      });
+    }, { threshold: 0.2 });
+    tlItems.forEach(el => observer.observe(el));
+  </script>
 </body>
+
 </html>

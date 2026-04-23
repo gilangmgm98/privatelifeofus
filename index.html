@@ -514,121 +514,123 @@
     }
 
     /* ── GALLERY ── */
+    /* ── POLAROID WALL ── */
     .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      max-width: 960px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px 14px;
+      max-width: 1120px;
       margin: 0 auto;
+      padding: 20px 10px 40px;
     }
 
+    /* wrapper kartu — perspective untuk 3D flip */
     .gallery-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: 12px;
-      aspect-ratio: 1;
-      background: linear-gradient(145deg, var(--rose-lt), var(--lav-lt));
+      perspective: 900px;
       cursor: pointer;
-      will-change: filter, transform;
-      transform: translateZ(0);
-      transition:
-        filter 0.4s ease,
-        transform 0.4s ease,
-        box-shadow 0.4s ease,
-        opacity 0.4s ease;
+      aspect-ratio: 0.78;
+      position: relative;
+      transform-style: flat; /* pastikan tidak cascade ke inner */
     }
 
-    /* default: semua item blur + redup */
-    .gallery-item {
-      filter: blur(4px) brightness(0.6) saturate(0.7);
-      transform: scale(0.97) translateZ(0);
-      opacity: 0.75;
-    }
+    /* rotasi acak tiap polaroid — natural & scattered */
+    .gallery-item:nth-child(3n+1) { transform: rotate(-2.5deg); }
+    .gallery-item:nth-child(3n+2) { transform: rotate(1.8deg);  }
+    .gallery-item:nth-child(3n+3) { transform: rotate(-1.2deg); }
+    .gallery-item:nth-child(5n)   { transform: rotate(2.8deg);  }
+    .gallery-item:nth-child(7n)   { transform: rotate(-0.8deg); }
+    .gallery-item:hover            { transform: rotate(0deg) scale(1.04); z-index: 10; }
 
-    /* item yang di-hover: tajam + terang */
-    .gallery-item:hover {
-      filter: blur(0) brightness(1.05) saturate(1.1);
-      transform: scale(1.04) translateZ(0);
-      opacity: 1;
-      box-shadow: 0 12px 40px rgba(158, 63, 92, 0.3);
-      z-index: 2;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* inner — yang benar-benar berputar */
+    .polaroid-inner {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.65s cubic-bezier(0.4, 0.2, 0.2, 1);
       will-change: transform;
     }
-
-    .gallery-item:hover img {
-      transform: scale(1.06);
+    .gallery-item.flipped .polaroid-inner {
+      transform: rotateY(180deg);
     }
 
-    /* foto unggulan: baris pertama — foto 1 lebar 2 kolom, foto 2 & 3 kotak */
-    .gallery-item:nth-child(1) {
-      grid-column: span 2;
-      aspect-ratio: 16/9;
+    /* depan & belakang bersama */
+    .polaroid-front,
+    .polaroid-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
+      border-radius: 3px;
+      box-shadow: 0 6px 24px rgba(60,20,40,0.18), 0 2px 6px rgba(0,0,0,0.1);
     }
 
-    /* foto tengah — foto 10 lebar 2 kolom sebagai aksen */
-    .gallery-item:nth-child(10) {
-      grid-column: span 2;
-      aspect-ratio: 16/9;
+    /* ── DEPAN: polaroid frame ── */
+    .polaroid-front {
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 10px 36px;
+    }
+    .polaroid-front img {
+      width: 100%; flex: 1;
+      object-fit: cover;
+      display: block;
+      min-height: 0;
+    }
+    .polaroid-caption {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      font-style: italic;
+      color: #9a7a8a;
+      padding-top: 8px;
+      letter-spacing: 0.5px;
     }
 
-    /* foto penutup — foto 21 lebar 2 kolom */
-    .gallery-item:nth-child(21) {
-      grid-column: span 2;
-      aspect-ratio: 16/9;
-    }
-
-    .gallery-placeholder {
-      width: 100%;
-      height: 100%;
+    /* ── BELAKANG: pesan cinta ── */
+    .polaroid-back {
+      background: linear-gradient(145deg, #fff9fb, #fdf0f5);
+      transform: rotateY(180deg);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 20px;
-      min-height: 160px;
-    }
-
-    .gallery-placeholder svg {
-      opacity: 0.3;
-    }
-
-    .gallery-placeholder span {
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 1px;
-      color: var(--muted);
+      padding: 20px 16px;
+      border: 1px solid rgba(212,112,138,0.15);
       text-align: center;
     }
-
-    .gallery-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(60, 20, 40, 0.5), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-      display: flex;
-      align-items: flex-end;
-      padding: 16px;
+    .polaroid-back-heart {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: var(--rose);
+      animation: pulse 2s ease infinite;
     }
-
-    .gallery-item:hover .gallery-overlay {
-      opacity: 1;
+    .polaroid-back-msg {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--rose-dk);
+      line-height: 1.7;
     }
-
-    .gallery-overlay-text {
-      font-size: 12px;
+    .polaroid-back-sub {
+      margin-top: 14px;
+      font-size: 10px;
       font-weight: 300;
-      letter-spacing: 1px;
-      color: white;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* blur default pada front saja — tidak sentuh polaroid-inner agar preserve-3d tetap bekerja */
+    .gallery-item:not(.flipped) .polaroid-front {
+      filter: blur(3px) brightness(0.7) saturate(0.7);
+      opacity: 0.8;
+      transition: filter 0.4s ease, opacity 0.4s ease;
+    }
+    .gallery-item:hover .polaroid-front,
+    .gallery-item.flipped .polaroid-front {
+      filter: blur(0) brightness(1) saturate(1);
+      opacity: 1;
     }
 
     /* LIGHTBOX */
@@ -952,44 +954,75 @@
     }
 
     /* ── RESPONSIVE ── */
+    @media (max-width: 900px) and (min-width: 601px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px 14px;
+      }
+    }
+
     @media (max-width: 600px) {
-      .navbar {
-        padding: 16px 20px;
-      }
+      /* navbar */
+      .navbar { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: 10px; letter-spacing: 1.5px; }
+      .nav-brand { font-size: 18px; }
 
-      .nav-links {
-        gap: 20px;
-      }
+      /* hero */
+      .hero { padding: 48px 20px 52px; }
+      .hero-frame { width: 200px; height: 248px; }
+      .hero-tagline { font-size: 13px; margin-bottom: 36px; }
+      .since-badge { padding: 8px 20px; font-size: 11px; }
 
-      .hero {
-        padding: 100px 20px 60px;
-      }
+      /* section */
+      .section { padding: 52px 20px; }
+      .section-inner { padding: 0 4px; }
 
-      .section {
-        padding: 64px 20px;
-      }
+      /* counter */
+      .counter-inner { grid-template-columns: repeat(2, 1fr); }
+      .counter-cell:nth-child(2) { border-right: none; }
+      .counter-num { font-size: 32px; }
 
-      .counter-inner {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .counter-cell:nth-child(2) {
-        border-right: none;
-      }
-
+      /* gallery polaroid */
       .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 14px 10px;
       }
 
-      .gallery-item:nth-child(1),
-      .gallery-item:nth-child(10),
-      .gallery-item:nth-child(21) {
-        grid-column: span 2;
-      }
+      /* letter */
+      .letter-wrap { padding: 28px 20px; }
 
-      .letter-wrap {
-        padding: 36px 24px;
+      /* birthday banner */
+      #bday-banner {
+        font-size: 11px;
+        padding: 8px 12px;
+        flex-direction: column;
+        gap: 6px;
       }
+      #bday-countdown { flex-wrap: wrap; justify-content: center; gap: 4px; }
+      .bday-unit { min-width: 30px; font-size: 12px; }
+
+      /* envelope section */
+      #bday-envelope-section { padding: 60px 20px; }
+      .bday-env-title { font-size: 32px; }
+      .envelope { width: 220px; }
+      .envelope-body { width: 220px; height: 152px; }
+      .envelope-flap {
+        border-left-width: 110px;
+        border-right-width: 110px;
+        border-top-width: 100px;
+      }
+      .env-fold-left { border-width: 76px 0 0 110px; }
+      .env-fold-right { border-width: 76px 110px 0 0; }
+      .verify-question { font-size: 17px; }
+      .bday-letter-card { padding: 32px 24px; }
+      .bday-letter-greeting { font-size: 22px; }
+      .bday-letter-body { font-size: 14px; line-height: 1.9; }
+
+      /* vinyl player */
+      #vinyl-player { bottom: 16px; right: 16px; }
+      #vinyl-disc { width: 56px; height: 56px; }
+      .vinyl-ctrl-btn { width: 24px; height: 24px; font-size: 9px; }
     }
 
     /* ── Birthday Banner ── */
@@ -1702,10 +1735,10 @@
       ║  CARA GANTI FOTO UTAMA:                              ║
       ║  Hapus div.hero-frame-placeholder di bawah ini,     ║
       ║  lalu uncomment tag <img> dan ganti src="..."        ║
-      ║  dengan path foto kamu (misal: foto/utama.jpg)       ║
+      ║  dengan path foto kamu (misal: foto/utama.webp)       ║
       ╚══════════════════════════════════════════════════════╝
     -->
-      <img src="foto/utama.jpg" alt="Masby & Dekby" class="hero-frame-img" />
+      <img src="foto/utama.webp" alt="Masby & Dekby" class="hero-frame-img" decoding="async" />
       <!-- <div class="hero-frame-placeholder">
       <svg width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
         <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
@@ -1760,198 +1793,7 @@
         <div class="ornament-line"></div>
       </div>
 
-      <!--
-      ╔══════════════════════════════════════════════════════════════╗
-      ║  CARA GANTI FOTO GALERI (24 slot tersedia):                  ║
-      ║  Simpan foto di folder "foto/" (galeri1.jpg s/d galeri25.jpg)║
-      ║  Pada tiap gallery-item:                                     ║
-      ║    1. Hapus div.gallery-placeholder                          ║
-      ║    2. Uncomment tag <img> di bawahnya                        ║
-      ║    3. Ganti teks di gallery-overlay-text sesuai momen        ║
-      ╚══════════════════════════════════════════════════════════════╝
-    -->
-      <div class="gallery-grid">
-
-        <!-- 1 — FEATURED (lebar 2 kolom) -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri1.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Foto kenangan utama</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Art Date | First time create ART from
-              Clay</span></div>
-        </div>
-
-        <!-- 2 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri2.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 2</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Private Birtday Date | 💕</span></div>
-        </div>
-
-        <!-- 3 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri3.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 3</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
-        </div>
-
-        <!-- 4 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri4.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 4</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
-        </div>
-
-        <!-- 5 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri5.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 5</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
-        </div>
-
-        <!-- 6 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri6.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 6</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Snorkling Date</span></div>
-        </div>
-
-        <!-- 7 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri7.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 7</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Pocari Run</span></div>
-        </div>
-
-        <!-- 8 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri8.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 8</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Beach Date | Sunset</span></div>
-        </div>
-
-        <!-- 9 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri9.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 9</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Trip | Before Flight Together for
-              First Time</span></div>
-        </div>
-
-        <!-- 10 — FEATURED TENGAH (lebar 2 kolom) -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri10.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen spesial</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
-        </div>
-
-        <!-- 11 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri11.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 11</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Flight Together</span></div>
-        </div>
-
-        <!-- 12 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri12.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 12</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | KFC</span></div>
-        </div>
-
-        <!-- 13 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri13.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 13</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Run Date | Milo Run</span></div>
-        </div>
-
-        <!-- 14 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri14.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 14</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Shopping Together</span></div>
-        </div>
-
-        <!-- 15 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri15.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 15</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Seirock</span></div>
-        </div>
-
-        <!-- 16 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri16.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 16</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | First Experience Jetski</span></div>
-        </div>
-
-        <!-- 17 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri17.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 17</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | At Bakso GBK</span></div>
-        </div>
-
-        <!-- 18 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri18.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 18</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Cuddle After Gym</span></div>
-        </div>
-
-        <!-- 19 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri19.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 19</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
-        </div>
-
-        <!-- 20 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri20.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 20</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Kafi Studios</span></div>
-        </div>
-
-        <!-- 21 — FEATURED PENUTUP (lebar 2 kolom) -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri21.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen istimewa</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Blok M Photobooth</span></div>
-        </div>
-
-        <!-- 22 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri22.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 22</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Snorkling Holiday</span></div>
-        </div>
-
-        <!-- 23 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri23.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 23</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Visit Traditional
-              Village</span></div>
-        </div>
-
-        <!-- 24 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri24.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 24</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Holiday Date | Pick Up Race Pack Pocari
-              Run</span></div>
-        </div>
-
-        <!-- 25 -->
-        <div class="gallery-item" onclick="openLightbox('')">
-          <img src="foto/galeri25.jpg" loading="lazy" />
-          <!-- <div class="gallery-placeholder"><svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#b080b0" stroke-width="1"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg><span>Momen 24</span></div> -->
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Date | Photobooth Blok M</span></div>
-        </div>
-
-      </div>
+      <div class="gallery-grid" id="polaroid-wall"></div>
     </div>
   </section>
 
@@ -2353,6 +2195,88 @@
       });
     }, { threshold: 0.2 });
     tlItems.forEach(el => observer.observe(el));
+
+    /* ── Polaroid Wall Builder ── */
+    (function() {
+      const photos = [
+        { src: 'foto/galeri1.webp',  caption: 'Art Date | First time create ART from Clay',
+          msg: 'Kamu tidak hanya cantik di mata — tapi juga di tangan. Karya pertamamu dari tanah liat itu lebih indah dari yang kamu kira.' },
+        { src: 'foto/galeri2.webp',  caption: 'Private Birthday Date 💕',
+          msg: 'Hari ulang tahunmu adalah hari paling kutunggu — bukan karena hadiahnya, tapi karena kamu layak dirayakan setiap tahun.' },
+        { src: 'foto/galeri3.webp',  caption: 'Beach Date | Sunset',
+          msg: 'Langit sore itu begitu merah — tapi yang paling hangat tetaplah kamu yang ada di sampingku.' },
+        { src: 'foto/galeri4.webp',  caption: 'Snorkling Date',
+          msg: 'Di bawah permukaan laut itu, aku sadar — tidak ada pemandangan yang lebih indah dari melihat kamu bahagia.' },
+        { src: 'foto/galeri5.webp',  caption: 'Run Date | Pocari Run',
+          msg: 'Berlari bersamamu bukan tentang finish line — tapi tentang setiap langkah yang kita jejak berdua.' },
+        { src: 'foto/galeri6.webp',  caption: 'Snorkling Date',
+          msg: 'Seperti ombak yang tak pernah berhenti kembali ke pantai, aku selalu kembali padamu.' },
+        { src: 'foto/galeri7.webp',  caption: 'Run Date | Pocari Run',
+          msg: 'Napas terengah setelah lari itu tidak apa-apa — selama kamu yang ada di sebelahku saat finish.' },
+        { src: 'foto/galeri8.webp',  caption: 'Beach Date | Sunset',
+          msg: 'Matahari boleh tenggelam setiap hari — tapi perasaanku padamu tidak pernah ikut tenggelam.' },
+        { src: 'foto/galeri9.webp',  caption: 'Holiday Trip | Before Flight Together',
+          msg: 'Sebelum terbang bersama untuk pertama kalinya, aku sudah tahu — ini baru permulaan dari banyak petualangan kita.' },
+        { src: 'foto/galeri10.webp', caption: 'Date | Seirock',
+          msg: 'Di antara segala keramaian, mataku selalu berhasil menemukanmu duluan.' },
+        { src: 'foto/galeri11.webp', caption: 'Flight Together',
+          msg: 'Di ketinggian 30.000 kaki pun, yang paling ingin kulihat tetap wajahmu di sebelah jendela itu.' },
+        { src: 'foto/galeri12.webp', caption: 'Date | KFC',
+          msg: 'Bahkan makan ayam goreng pun terasa seperti fine dining kalau kamu yang duduk di seberangku.' },
+        { src: 'foto/galeri13.webp', caption: 'Run Date | Milo Run',
+          msg: 'Setiap kilometer kita tempuh bersama adalah bukti — kita kuat, bersama.' },
+        { src: 'foto/galeri14.webp', caption: 'Shopping Together',
+          msg: 'Ikut kamu belanja berjam-jam pun tidak pernah terasa membosankan — karena kamu yang bikin seru.' },
+        { src: 'foto/galeri15.webp', caption: 'Date | Seirock',
+          msg: 'Tempatnya boleh sama — tapi setiap kali bersamamu, rasanya selalu berbeda dan selalu lebih baik.' },
+        { src: 'foto/galeri16.webp', caption: 'Date | First Experience Jetski',
+          msg: 'Pertama kali naik jetski, dan yang paling kuingat bukan derasnya ombak — tapi teriakan gilamu yang penuh tawa.' },
+        { src: 'foto/galeri17.webp', caption: 'Date | At Bakso GBK',
+          msg: 'Dari semangkuk bakso sederhana sampai mimpi-mimpi besar — aku ingin menjalani semuanya bersamamu.' },
+        { src: 'foto/galeri18.webp', caption: 'Date | Cuddle After Gym',
+          msg: 'Pelukanmu setelah lelah adalah pemulihan terbaik yang tidak ada di suplemen manapun.' },
+        { src: 'foto/galeri19.webp', caption: 'Date | Blok M Photobooth',
+          msg: 'Empat frame kecil itu menyimpan tawa yang tidak bisa dibeli — hanya bisa dirasakan.' },
+        { src: 'foto/galeri20.webp', caption: 'Date | Kafi Studios',
+          msg: 'Di depan kamera studio itu, kamu tidak perlu pose — kamu sudah cantik apa adanya.' },
+        { src: 'foto/galeri21.webp', caption: 'Date | Blok M Photobooth',
+          msg: 'Senyummu di foto ini — itulah yang ingin kulihat setiap pagi sepanjang hidupku.' },
+        { src: 'foto/galeri22.webp', caption: 'Holiday Date | Snorkling Holiday',
+          msg: 'Di bawah laut yang biru itu, aku membawa satu hal paling berharga — kenangan bersamamu.' },
+        { src: 'foto/galeri23.webp', caption: 'Holiday Date | Visit Traditional Village',
+          msg: 'Menjelajah budaya bersamamu mengajarkanku satu hal — dunia jauh lebih indah kalau dilihat dari matamu.' },
+        { src: 'foto/galeri24.webp', caption: 'Holiday Date | Pick Up Race Pack Pocari Run',
+          msg: 'Bahkan antri ambil race pack pun jadi kenangan — karena kamu yang ada di sebelahku.' },
+        { src: 'foto/galeri25.webp', caption: 'Date | Photobooth Blok M',
+          msg: 'Setiap foto kita adalah bukti nyata bahwa kebahagiaan itu ada, dan namanya adalah kamu.' },
+      ];
+
+      const wall = document.getElementById('polaroid-wall');
+
+      photos.forEach(function(p, i) {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+
+        item.innerHTML =
+          '<div class="polaroid-inner">' +
+            '<div class="polaroid-front">' +
+              '<img src="' + p.src + '" loading="lazy" decoding="async" alt="' + p.caption + '" />' +
+              '<div class="polaroid-caption">' + p.caption + '</div>' +
+            '</div>' +
+            '<div class="polaroid-back">' +
+              '<div class="polaroid-back-heart">♡</div>' +
+              '<div class="polaroid-back-msg">' + p.msg + '</div>' +
+              '<div class="polaroid-back-sub">— Masby</div>' +
+            '</div>' +
+          '</div>';
+
+        item.addEventListener('click', function() {
+          this.classList.toggle('flipped');
+        });
+
+        wall.appendChild(item);
+      });
+    })();
 
     /* ── Birthday Envelope Section ── */
     (function() {

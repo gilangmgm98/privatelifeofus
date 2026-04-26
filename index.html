@@ -1515,7 +1515,7 @@
     Tambah objek: { title: "Judul Lagu", artist: "Nama Artis", src: "musik/nama-file.mp3" }
     Simpan semua file MP3 di folder "musik/"
   -->
-  <audio id="vinyl-audio" muted autoplay></audio>
+  <audio id="vinyl-audio"></audio>
 
   <div id="vinyl-player">
     <div id="vinyl-label-wrap">
@@ -1989,6 +1989,7 @@
        ║  Format: { title, artist, src }                      ║
        ╚══════════════════════════════════════════════════════╝ */
     const playlist = [
+      { title: "Risk it All",  artist: "Bruno Mars",  src: "musik/Risk it All.mp3" },
       { title: "I Remember",  artist: "Mocca",  src: "musik/I Remember.mp3" },
       { title: "Nothing's Gonna Change My Love For You",  artist: "Artis",  src: "musik/Nothing's Gonna Change My Love For You.mp3" },
       // { title: "Lagu Kita 3",  artist: "Artis",  src: "musik/lagu3.mp3" },
@@ -2055,15 +2056,7 @@
     audio.addEventListener('pause', () => setPlaying(false));
     audio.addEventListener('ended', () => window.vinylNext());
 
-    /* autoplay muted, unmute saat interaksi pertama */
     audio.volume = 0.5;
-    function unmuteOnce() {
-      audio.muted = false;
-      ['click','scroll','keydown','touchstart'].forEach(e =>
-        document.removeEventListener(e, unmuteOnce));
-    }
-    ['click','scroll','keydown','touchstart'].forEach(e =>
-      document.addEventListener(e, unmuteOnce));
 
     /* init */
     buildDots();
